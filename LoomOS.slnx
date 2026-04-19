@@ -2,5 +2,5 @@
   <Project Path="BusinessLayer/BusinessLayer.csproj" />
   <Project Path="DataAccessLayer/DataAccessLayer.csproj" />
   <Project Path="EntityLayer/EntityLayer.csproj" />
-  <Project Path="LoomOS.csproj" />
+  <Project Path="LoomOS_UI/LoomOS.csproj" />
 </Solution>
