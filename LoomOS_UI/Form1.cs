@@ -157,6 +157,49 @@ namespace LoomOS
         {
 
         }
+        private void button10_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (comboBox1.SelectedValue == null || comboBox1.SelectedValue.ToString() == "")
+                {
+                    MessageBox.Show("Lütfen listeden bir departman seçiniz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                EntityLayer.Calisan yeniPersonel = new EntityLayer.Calisan();
+                //TextBox'lardan verileri alıp yeniPersonel nesnesinin içine atıyoruz
+                yeniPersonel.Calisan_Ad = textBoxCalisanAd.Text;
+                yeniPersonel.Calisan_Soyad = textBoxCalisanSoyad.Text;
+                yeniPersonel.Calisan_TC = textBoxTCNO.Text;
+                yeniPersonel.Calisan_TelNO = textBoxTelNO.Text;
+                //Şifremizi sistem üretiyor
+                yeniPersonel.Sifre = BusinessLayer.CalisanManager.RastgeleSifreUret();
+                //ComboBox'tan seçilen departmanın ID'sini alıp yeniPersonel nesnesine 
+                yeniPersonel.Departman_ID = Convert.ToInt32(comboBox1.SelectedValue);
+                //Yeni personel ekliyoruz
+                int sonuc = BusinessLayer.CalisanManager.CalisanEkleBL(yeniPersonel);
+
+                if (sonuc > 0)
+                {
+                    // Sistemin ürettiği şifreyi İK uzmanına gösteriyoruz!
+                    string mesaj = $"Yeni personel başarıyla sisteme kaydedildi!\n\nSistemin Atadığı Geçici Şifre: {yeniPersonel.Sifre}\n\nLütfen bu şifreyi personele iletiniz.";
+
+                    MessageBox.Show(mesaj, "Kayıt Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    textBoxCalisanAd.Text = "";
+                    textBoxCalisanSoyad.Text = "";
+                    textBoxTCNO.Text = "";
+                    textBoxTelNO.Text = "";
+
+                    dataGridView3.DataSource = BusinessLayer.CalisanManager.CalisanListeleBL();
+                }
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show(hata.Message, "Kayıt Hatası", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
         #endregion
 
         #region Müşteriler için
@@ -207,16 +250,83 @@ namespace LoomOS
         {
             try
             {
-                // Form açıldığı an istatistikleri çek ve labellara yaz!
+                // 1. KİŞİYİ KARŞILA
+                lblKarsilama.Text = "Hoş Geldin, " + EntityLayer.KullaniciSession.AdSoyad;
+
+                // 2. YETKİ KONTROLÜ! (Role-Based Authorization)
+                // Varsayım: Admin/Yönetici departmanının ID'si 1 olsun.
+                if (EntityLayer.KullaniciSession.Departman_ID != 5)
+                {
+                    // Eğer giren kişi Admin değilse, Çalışanlar ve Departmanlar sekmesini gizle!
+                    tabControl1.TabPages.Remove(tabPageCalisanlar);
+                    tabControl1.TabPages.Remove(tabPageDepartmanlar);
+
+                }
+
                 lblToplamMusteri.Text = "Toplam Müşteri: " + IstatistikManager.ToplamMusteriBL();
                 lblToplamCalisan.Text = "Toplam Çalışan: " + IstatistikManager.ToplamCalisanBL();
             }
             catch (Exception hata)
             {
-                MessageBox.Show("Dashboard verileri yüklenemedi: " + hata.Message);
+                MessageBox.Show("Sistem verileri yüklenemedi: " + hata.Message);
+            }
+
+
+            #region ComboBox'a Departmanları Getirme
+            // 1. Veritabanındaki tüm departmanları çekip ComboBox'ın içine fırlatıyoruz!
+            comboBox1.DisplayMember = "Departman_Adi";
+            comboBox1.ValueMember = "Departman_ID";
+            comboBox1.DataSource = BusinessLayer.DepartmanManager.DepartmanListeleBL();
+            #endregion
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPageCalisanlar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Session'daki (Yaka Kartındaki) ID'yi alıyoruz
+                int aktifKullaniciID = EntityLayer.KullaniciSession.Calisan_ID;
+
+                // 2. Kutulardaki yeni şifreleri alıp Gümrüğe gönderiyoruz
+                int sonuc = BusinessLayer.CalisanManager.SifreGuncelleBL(aktifKullaniciID, textBoxYeniSifre.Text, textBoxYeniSifreTekrar.Text);
+
+                if (sonuc > 0)
+                {
+                    MessageBox.Show("Şifreniz başarıyla güncellendi! Lütfen bir sonraki girişinizde yeni şifrenizi kullanın.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    textBoxYeniSifre.Text = "";
+                    textBoxYeniSifreTekrar.Text = "";
+                }
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show(hata.Message, "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

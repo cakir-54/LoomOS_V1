@@ -16,7 +16,7 @@ namespace EntityLayer
         public string Calisan_TelNO { get; set; }
         public decimal Calisan_Maas { get; set; }
         public DateTime Giris_Tarihi { get; set; }
-        public DateTime? Cikis_Tarihi_null { get; set; }
+        public DateTime? Cikis_Tarihi { get; set; }
         public string Sifre { get; set;}
 
 
