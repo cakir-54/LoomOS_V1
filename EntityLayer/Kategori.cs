@@ -4,12 +4,9 @@ using System.Text;
 
 namespace EntityLayer
 {
-    public class EkGelir
+    public class Kategori
     {
-        public int Gelir_ID { get; set; }
-        public int Gelir_Tipi_ID { get; set; }
-        public decimal Tutar { get; set; }
-        public DateTime Gelir_Tarihi { get; set; }
-
+        public int Kategori_ID { get; set; }
+        public string Kategori_Adi { get; set; }
     }
 }

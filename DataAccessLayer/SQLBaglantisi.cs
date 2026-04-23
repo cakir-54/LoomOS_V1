@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DataAccessLayer
@@ -35,6 +36,28 @@ namespace DataAccessLayer
             }
 
             return komut.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+        }
+
+        public static DataTable SorguCalistirTablo(string sorgu, SqlParameter[] parametreler)
+        {
+            // RAM'de boş bir sanal tablo oluşturuyoruz
+            DataTable tablo = new DataTable();
+
+            //Kendi sistemindeki bağlantı nesneni kullan (Aşağıdaki Baglanti yazan yeri kendi koduna göre uyarla)
+            SqlConnection baglan = BaglantiGetir();
+            SqlCommand komut = new SqlCommand(sorgu, baglan);
+
+            if (parametreler != null)
+            {
+                komut.Parameters.AddRange(parametreler);
+            }
+
+            // 4. SqlDataAdapter ile SQL'e gidiyoruz
+            SqlDataAdapter adaptor = new SqlDataAdapter(komut);
+
+            adaptor.Fill(tablo);
+
+            return tablo;
         }
 
         public static string TekDegerGetir(string sorgu)

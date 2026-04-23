@@ -129,9 +129,111 @@ namespace LoomOS
 
 
         }
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        
+        private void textBoxUrunAra_TextChanged(object sender, EventArgs e)
         {
+            try
+            {
+                // Güvenli bölge: Her harfe basıldığında veriyi filtrele
+                dataGridView2.DataSource = BusinessLayer.UrunManager.UrunAraBL(textBoxUrunAra.Text);
+            }
+            catch (Exception hata)
+            {
+                // Eğer o an SQL'e ulaşılamazsa veya bir hata koparsa programı ÇÖKERTME, sadece uyar!
+                MessageBox.Show("Arama işlemi sırasında sunucuyla bağlantı kurulamadı: \n" + hata.Message, "Bağlantı Uyarısı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
 
+        
+
+        private void buttonUrunEkle_Click(object sender, EventArgs e)
+        {
+            //Hata koruması
+            if (string.IsNullOrWhiteSpace(textBoxUrunAd.Text) || string.IsNullOrWhiteSpace(TextBoxMarka.Text) || string.IsNullOrWhiteSpace(TextBoxBarkod.Text))
+            {
+                MessageBox.Show("Lütfen Ürün Adı, Marka ve Barkod alanlarını doldurunuz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; 
+            }
+
+            if (comboBoxKategori.SelectedIndex == -1) 
+            {
+                MessageBox.Show("Lütfen listeden bir Kategori seçiniz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                EntityLayer.Urun yeniUrun = new EntityLayer.Urun();
+                yeniUrun.Urun_Adi = textBoxUrunAd.Text;
+                yeniUrun.Kategori_ID = Convert.ToInt32(comboBoxKategori.SelectedValue);
+                yeniUrun.Marka = TextBoxMarka.Text;
+                yeniUrun.Barkod_NO = TextBoxBarkod.Text;
+
+                int sonuc = BusinessLayer.UrunManager.UrunEkleBL(yeniUrun);
+
+                if (sonuc > 0)
+                {
+                    MessageBox.Show("Ürün kataloğa başarıyla eklendi!\nŞimdi sağ taraftan bu ürüne beden/stok girebilirsiniz.", "Kayıt Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    comboBoxUrun.DataSource = BusinessLayer.UrunManager.UrunListeleTabloBL();
+                    textBoxUrunAd.Clear(); TextBoxMarka.Clear(); TextBoxBarkod.Clear(); comboBoxKategori.SelectedIndex = -1;
+                }
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show(hata.Message, "Katalog Kayıt Hatası", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void buttonStokGir_Click(object sender, EventArgs e)
+        {
+            // Hata Koruması
+            if (comboBoxUrun.SelectedIndex == -1)
+            {
+                MessageBox.Show("Lütfen stok eklenecek Ürünü seçiniz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (comboBoxBeden.SelectedIndex == -1)
+            {
+                MessageBox.Show("Lütfen listeden bir Beden seçiniz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (numericUpDownSatisFiyati.Value <= numericUpDownAlisFiyati.Value)
+            {
+                MessageBox.Show("Satış fiyatı, Alış fiyatından (Maliyetten) yüksek olmalıdır!", "Mantık Hatası", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                EntityLayer.EnvanterStok yeniStok = new EntityLayer.EnvanterStok();
+
+                // Sağ taraftaki kutulardan verileri topluyoruz
+                yeniStok.Urun_ID = Convert.ToInt32(comboBoxUrun.SelectedValue);
+                yeniStok.Beden_ID = Convert.ToInt32(comboBoxBeden.SelectedValue); // Beden ID'sini alıyoruz
+                yeniStok.Renk = textBoxRenk.Text;
+
+                // NumericUpDown'lardan değerleri (Value) alıyoruz
+                yeniStok.Stok_Adeti = Convert.ToInt32(numericUpDownStok.Value);
+                yeniStok.Alis_Fiyati = numericUpDownAlisFiyati.Value;
+                yeniStok.Satis_Fiyati = numericUpDownSatisFiyati.Value;
+
+                int sonuc = BusinessLayer.EnvanterManager.StokVaryantEkleBL(yeniStok);
+
+                if (sonuc > 0)
+                {
+                    MessageBox.Show("Stok ve Varyant bilgisi başarıyla eklendi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    dataGridView3.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL();
+                    // Ekranı yeni stok girişine hazırla (Ürün adı kalsın, beden/renk temizlensin)
+                    textBoxRenk.Clear(); numericUpDownStok.Value = 0; numericUpDownAlisFiyati.Value = 0; numericUpDownSatisFiyati.Value = 0; comboBoxBeden.SelectedIndex = -1;
+                }
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show(hata.Message, "Stok Kayıt Hatası", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
         #endregion
 
@@ -151,11 +253,6 @@ namespace LoomOS
             {
                 MessageBox.Show("Çalışanlar çekilirken bir hata oluştu: \n\n" + hata.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
         private void button10_Click(object sender, EventArgs e)
         {
@@ -234,16 +331,6 @@ namespace LoomOS
         {
             dataGridView4.DataSource = MusteriManager.MusteriListeleBL();
         }
-
-        private void dataGridView4_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
         #endregion
 
         private void Form1_Load(object sender, EventArgs e)
@@ -270,37 +357,46 @@ namespace LoomOS
             {
                 MessageBox.Show("Sistem verileri yüklenemedi: " + hata.Message);
             }
-
-
             #region ComboBox'a Departmanları Getirme
             // 1. Veritabanındaki tüm departmanları çekip ComboBox'ın içine fırlatıyoruz!
             comboBox1.DisplayMember = "Departman_Adi";
             comboBox1.ValueMember = "Departman_ID";
             comboBox1.DataSource = BusinessLayer.DepartmanManager.DepartmanListeleBL();
             #endregion
+
+            #region ComboBox'a Kategorileri Getirme
+            BindingSource bsKategori = new BindingSource();
+            bsKategori.DataSource = BusinessLayer.KategoriManager.KategoriListeleBL();
+
+            comboBoxKategori.DisplayMember = "Kategori_Adi";
+            comboBoxKategori.ValueMember = "Kategori_ID";
+            comboBoxKategori.DataSource = bsKategori; // Tabloyu değil, Tercümanı veriyoruz!
+            #endregion
+
+            #region ComboBox'a Ürünleri Getirme
+            BindingSource bsUrun = new BindingSource();
+            bsUrun.DataSource = BusinessLayer.UrunManager.UrunListeleTabloBL();
+
+            comboBoxUrun.DisplayMember = "Urun_Adi";
+            comboBoxUrun.ValueMember = "Urun_ID";
+            comboBoxUrun.DataSource = bsUrun;
+            #endregion
+
+            #region ComboBox'a Bedenleri Getirme
+            BindingSource bsBeden = new BindingSource();
+            bsBeden.DataSource = BusinessLayer.BedenManager.BedenListeleBL();
+
+            comboBoxBeden.DisplayMember = "Beden_Ad";
+            comboBoxBeden.ValueMember = "Beden_ID";
+            comboBoxBeden.DataSource = bsBeden;
+            #endregion
+
+            // Program açıldığında View'daki hazır listeyi ekrana bas
+            dataGridView2.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL();
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPageCalisanlar_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button11_Click(object sender, EventArgs e)
+        
+        private void button11_Click(object sender, EventArgs e)//Şifre Güncelle
         {
             try
             {
@@ -322,11 +418,7 @@ namespace LoomOS
             {
                 MessageBox.Show(hata.Message, "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
+        }        
     }
+    
 }

@@ -56,6 +56,32 @@
             button4 = new Button();
             button3 = new Button();
             tabPageUrunler = new TabPage();
+            groupBox2 = new GroupBox();
+            label18 = new Label();
+            label17 = new Label();
+            label16 = new Label();
+            label15 = new Label();
+            label14 = new Label();
+            label13 = new Label();
+            numericUpDownSatisFiyati = new NumericUpDown();
+            buttonStokGir = new Button();
+            numericUpDownAlisFiyati = new NumericUpDown();
+            numericUpDownStok = new NumericUpDown();
+            textBoxRenk = new TextBox();
+            comboBoxBeden = new ComboBox();
+            comboBoxUrun = new ComboBox();
+            groupBox1 = new GroupBox();
+            buttonUrunEkle = new Button();
+            label12 = new Label();
+            label11 = new Label();
+            label10 = new Label();
+            label9 = new Label();
+            TextBoxBarkod = new MaskedTextBox();
+            TextBoxMarka = new MaskedTextBox();
+            comboBoxKategori = new ComboBox();
+            textBoxUrunAd = new TextBox();
+            label8 = new Label();
+            textBoxUrunAra = new TextBox();
             dataGridView2 = new DataGridView();
             button2 = new Button();
             tabPageMusteriler = new TabPage();
@@ -76,6 +102,11 @@
             tabPageCalisanlar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
             tabPageUrunler.SuspendLayout();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownSatisFiyati).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownAlisFiyati).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownStok).BeginInit();
+            groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             tabPageMusteriler.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView4).BeginInit();
@@ -234,7 +265,6 @@
             tabPageCalisanlar.TabIndex = 1;
             tabPageCalisanlar.Text = "Çalışanlar";
             tabPageCalisanlar.UseVisualStyleBackColor = true;
-            tabPageCalisanlar.Click += tabPageCalisanlar_Click;
             // 
             // label5
             // 
@@ -260,7 +290,6 @@
             label4.Size = new Size(144, 20);
             label4.TabIndex = 11;
             label4.Text = "T.C. Kimlik Numarası";
-            label4.Click += label4_Click;
             // 
             // textBoxTCNO
             // 
@@ -286,7 +315,6 @@
             label2.Size = new Size(105, 20);
             label2.TabIndex = 8;
             label2.Text = "Çalışan Soyadı";
-            label2.Click += label2_Click;
             // 
             // label1
             // 
@@ -337,7 +365,6 @@
             dataGridView3.RowHeadersWidth = 51;
             dataGridView3.Size = new Size(396, 350);
             dataGridView3.TabIndex = 2;
-            dataGridView3.CellContentClick += dataGridView3_CellContentClick;
             // 
             // button4
             // 
@@ -360,6 +387,10 @@
             // 
             // tabPageUrunler
             // 
+            tabPageUrunler.Controls.Add(groupBox2);
+            tabPageUrunler.Controls.Add(groupBox1);
+            tabPageUrunler.Controls.Add(label8);
+            tabPageUrunler.Controls.Add(textBoxUrunAra);
             tabPageUrunler.Controls.Add(dataGridView2);
             tabPageUrunler.Controls.Add(button2);
             tabPageUrunler.Location = new Point(4, 29);
@@ -370,21 +401,262 @@
             tabPageUrunler.Text = "Ürünler";
             tabPageUrunler.UseVisualStyleBackColor = true;
             // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(label18);
+            groupBox2.Controls.Add(label17);
+            groupBox2.Controls.Add(label16);
+            groupBox2.Controls.Add(label15);
+            groupBox2.Controls.Add(label14);
+            groupBox2.Controls.Add(label13);
+            groupBox2.Controls.Add(numericUpDownSatisFiyati);
+            groupBox2.Controls.Add(buttonStokGir);
+            groupBox2.Controls.Add(numericUpDownAlisFiyati);
+            groupBox2.Controls.Add(numericUpDownStok);
+            groupBox2.Controls.Add(textBoxRenk);
+            groupBox2.Controls.Add(comboBoxBeden);
+            groupBox2.Controls.Add(comboBoxUrun);
+            groupBox2.Location = new Point(320, 175);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(439, 207);
+            groupBox2.TabIndex = 5;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Seçili Ürüne Stok Bilgisi Girme";
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(191, 80);
+            label18.Name = "label18";
+            label18.Size = new Size(72, 20);
+            label18.TabIndex = 11;
+            label18.Text = "Alış Fiyatı";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(191, 27);
+            label17.Name = "label17";
+            label17.Size = new Size(74, 20);
+            label17.TabIndex = 10;
+            label17.Text = "Stok Adet";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(15, 135);
+            label16.Name = "label16";
+            label16.Size = new Size(51, 20);
+            label16.TabIndex = 9;
+            label16.Text = "Beden";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(191, 135);
+            label15.Name = "label15";
+            label15.Size = new Size(79, 20);
+            label15.TabIndex = 8;
+            label15.Text = "Satış Fiyatı";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(15, 80);
+            label14.Name = "label14";
+            label14.Size = new Size(41, 20);
+            label14.TabIndex = 7;
+            label14.Text = "Renk";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(15, 27);
+            label13.Name = "label13";
+            label13.Size = new Size(83, 20);
+            label13.TabIndex = 6;
+            label13.Text = "Ürünün Adı";
+            // 
+            // numericUpDownSatisFiyati
+            // 
+            numericUpDownSatisFiyati.Location = new Point(192, 157);
+            numericUpDownSatisFiyati.Name = "numericUpDownSatisFiyati";
+            numericUpDownSatisFiyati.Size = new Size(150, 27);
+            numericUpDownSatisFiyati.TabIndex = 5;
+            // 
+            // buttonStokGir
+            // 
+            buttonStokGir.Location = new Point(366, 171);
+            buttonStokGir.Name = "buttonStokGir";
+            buttonStokGir.Size = new Size(73, 36);
+            buttonStokGir.TabIndex = 5;
+            buttonStokGir.Text = "Stok Gir";
+            buttonStokGir.UseVisualStyleBackColor = true;
+            buttonStokGir.Click += buttonStokGir_Click;
+            // 
+            // numericUpDownAlisFiyati
+            // 
+            numericUpDownAlisFiyati.Location = new Point(191, 104);
+            numericUpDownAlisFiyati.Name = "numericUpDownAlisFiyati";
+            numericUpDownAlisFiyati.Size = new Size(150, 27);
+            numericUpDownAlisFiyati.TabIndex = 4;
+            // 
+            // numericUpDownStok
+            // 
+            numericUpDownStok.Location = new Point(191, 50);
+            numericUpDownStok.Name = "numericUpDownStok";
+            numericUpDownStok.Size = new Size(150, 27);
+            numericUpDownStok.TabIndex = 3;
+            // 
+            // textBoxRenk
+            // 
+            textBoxRenk.Location = new Point(15, 103);
+            textBoxRenk.Name = "textBoxRenk";
+            textBoxRenk.Size = new Size(151, 27);
+            textBoxRenk.TabIndex = 2;
+            // 
+            // comboBoxBeden
+            // 
+            comboBoxBeden.FormattingEnabled = true;
+            comboBoxBeden.Location = new Point(15, 156);
+            comboBoxBeden.Name = "comboBoxBeden";
+            comboBoxBeden.Size = new Size(151, 28);
+            comboBoxBeden.TabIndex = 1;
+            // 
+            // comboBoxUrun
+            // 
+            comboBoxUrun.FormattingEnabled = true;
+            comboBoxUrun.Location = new Point(15, 50);
+            comboBoxUrun.Name = "comboBoxUrun";
+            comboBoxUrun.Size = new Size(151, 28);
+            comboBoxUrun.TabIndex = 0;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(buttonUrunEkle);
+            groupBox1.Controls.Add(label12);
+            groupBox1.Controls.Add(label11);
+            groupBox1.Controls.Add(label10);
+            groupBox1.Controls.Add(label9);
+            groupBox1.Controls.Add(TextBoxBarkod);
+            groupBox1.Controls.Add(TextBoxMarka);
+            groupBox1.Controls.Add(comboBoxKategori);
+            groupBox1.Controls.Add(textBoxUrunAd);
+            groupBox1.Location = new Point(320, 10);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(439, 159);
+            groupBox1.TabIndex = 4;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Yeni Ürün Ekleme";
+            // 
+            // buttonUrunEkle
+            // 
+            buttonUrunEkle.Location = new Point(366, 119);
+            buttonUrunEkle.Name = "buttonUrunEkle";
+            buttonUrunEkle.Size = new Size(73, 40);
+            buttonUrunEkle.TabIndex = 8;
+            buttonUrunEkle.Text = "Tanımla";
+            buttonUrunEkle.TextImageRelation = TextImageRelation.TextAboveImage;
+            buttonUrunEkle.UseVisualStyleBackColor = true;
+            buttonUrunEkle.Click += buttonUrunEkle_Click;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(191, 85);
+            label12.Name = "label12";
+            label12.Size = new Size(127, 20);
+            label12.TabIndex = 7;
+            label12.Text = "Ürünün Kategorisi";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(15, 88);
+            label11.Name = "label11";
+            label11.Size = new Size(111, 20);
+            label11.TabIndex = 6;
+            label11.Text = "Ürünün Markası";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(191, 33);
+            label10.Name = "label10";
+            label10.Size = new Size(123, 20);
+            label10.TabIndex = 5;
+            label10.Text = "Barkod Numarası";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(15, 32);
+            label9.Name = "label9";
+            label9.Size = new Size(83, 20);
+            label9.TabIndex = 4;
+            label9.Text = "Ürünün Adı";
+            // 
+            // TextBoxBarkod
+            // 
+            TextBoxBarkod.Location = new Point(191, 55);
+            TextBoxBarkod.Name = "TextBoxBarkod";
+            TextBoxBarkod.Size = new Size(151, 27);
+            TextBoxBarkod.TabIndex = 3;
+            // 
+            // TextBoxMarka
+            // 
+            TextBoxMarka.Location = new Point(15, 111);
+            TextBoxMarka.Name = "TextBoxMarka";
+            TextBoxMarka.Size = new Size(125, 27);
+            TextBoxMarka.TabIndex = 2;
+            // 
+            // comboBoxKategori
+            // 
+            comboBoxKategori.FormattingEnabled = true;
+            comboBoxKategori.Location = new Point(191, 111);
+            comboBoxKategori.Name = "comboBoxKategori";
+            comboBoxKategori.Size = new Size(151, 28);
+            comboBoxKategori.TabIndex = 1;
+            // 
+            // textBoxUrunAd
+            // 
+            textBoxUrunAd.Location = new Point(15, 55);
+            textBoxUrunAd.Name = "textBoxUrunAd";
+            textBoxUrunAd.Size = new Size(125, 27);
+            textBoxUrunAd.TabIndex = 0;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(8, 10);
+            label8.Name = "label8";
+            label8.Size = new Size(67, 20);
+            label8.TabIndex = 3;
+            label8.Text = "Ürün Ara";
+            // 
+            // textBoxUrunAra
+            // 
+            textBoxUrunAra.Location = new Point(8, 33);
+            textBoxUrunAra.Name = "textBoxUrunAra";
+            textBoxUrunAra.Size = new Size(285, 27);
+            textBoxUrunAra.TabIndex = 2;
+            textBoxUrunAra.Text = " ";
+            textBoxUrunAra.TextChanged += textBoxUrunAra_TextChanged;
+            // 
             // dataGridView2
             // 
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(0, 50);
+            dataGridView2.Location = new Point(6, 65);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.RowHeadersWidth = 51;
-            dataGridView2.Size = new Size(780, 350);
+            dataGridView2.Size = new Size(293, 293);
             dataGridView2.TabIndex = 1;
-            dataGridView2.CellContentClick += dataGridView2_CellContentClick;
             // 
             // button2
             // 
-            button2.Location = new Point(8, 6);
+            button2.Location = new Point(41, 355);
             button2.Name = "button2";
-            button2.Size = new Size(180, 40);
+            button2.Size = new Size(180, 36);
             button2.TabIndex = 0;
             button2.Text = "Ürünleri Getir";
             button2.UseVisualStyleBackColor = true;
@@ -420,7 +692,6 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(162, 27);
             textBox1.TabIndex = 2;
-            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // dataGridView4
             // 
@@ -430,7 +701,6 @@
             dataGridView4.RowHeadersWidth = 51;
             dataGridView4.Size = new Size(780, 350);
             dataGridView4.TabIndex = 1;
-            dataGridView4.CellContentClick += dataGridView4_CellContentClick;
             // 
             // button5
             // 
@@ -484,7 +754,6 @@
             label6.Size = new Size(70, 20);
             label6.TabIndex = 2;
             label6.Text = "Yeni Şifre";
-            label6.Click += label6_Click;
             // 
             // textBoxYeniSifreTekrar
             // 
@@ -521,6 +790,14 @@
             tabPageCalisanlar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).EndInit();
             tabPageUrunler.ResumeLayout(false);
+            tabPageUrunler.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownSatisFiyati).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownAlisFiyati).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownStok).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             tabPageMusteriler.ResumeLayout(false);
             tabPageMusteriler.PerformLayout();
@@ -573,5 +850,31 @@
         private Label label6;
         private TextBox textBoxYeniSifreTekrar;
         private TextBox textBoxYeniSifre;
+        private Label label8;
+        private TextBox textBoxUrunAra;
+        private GroupBox groupBox2;
+        private GroupBox groupBox1;
+        private MaskedTextBox TextBoxMarka;
+        private ComboBox comboBoxKategori;
+        private TextBox textBoxUrunAd;
+        private Button buttonUrunEkle;
+        private Label label12;
+        private Label label11;
+        private Label label10;
+        private Label label9;
+        private MaskedTextBox TextBoxBarkod;
+        private NumericUpDown numericUpDownSatisFiyati;
+        private Button buttonStokGir;
+        private NumericUpDown numericUpDownAlisFiyati;
+        private NumericUpDown numericUpDownStok;
+        private TextBox textBoxRenk;
+        private ComboBox comboBoxBeden;
+        private ComboBox comboBoxUrun;
+        private Label label18;
+        private Label label17;
+        private Label label16;
+        private Label label15;
+        private Label label14;
+        private Label label13;
     }
 }
