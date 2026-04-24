@@ -56,6 +56,8 @@
             button4 = new Button();
             button3 = new Button();
             tabPageUrunler = new TabPage();
+            buttonSil = new Button();
+            buttonGuncelle = new Button();
             groupBox2 = new GroupBox();
             label18 = new Label();
             label17 = new Label();
@@ -83,7 +85,6 @@
             label8 = new Label();
             textBoxUrunAra = new TextBox();
             dataGridView2 = new DataGridView();
-            button2 = new Button();
             tabPageMusteriler = new TabPage();
             button6 = new Button();
             textBox1 = new TextBox();
@@ -95,6 +96,18 @@
             label6 = new Label();
             textBoxYeniSifreTekrar = new TextBox();
             textBoxYeniSifre = new TextBox();
+            tabPageKasa = new TabPage();
+            label22 = new Label();
+            comboBoxMusteri = new ComboBox();
+            label21 = new Label();
+            label20 = new Label();
+            buttonSiparisIptal = new Button();
+            buttonSiparisiTamamla = new Button();
+            label19 = new Label();
+            dataGridViewSepet = new DataGridView();
+            comboBoxOdemeTuru = new ComboBox();
+            buttonSepeteEkle = new Button();
+            textBoxBarkodKasa = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl1.SuspendLayout();
             tabPageDashboard.SuspendLayout();
@@ -111,6 +124,8 @@
             tabPageMusteriler.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView4).BeginInit();
             tabPageProfil.SuspendLayout();
+            tabPageKasa.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSepet).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -141,6 +156,7 @@
             tabControl1.Controls.Add(tabPageUrunler);
             tabControl1.Controls.Add(tabPageMusteriler);
             tabControl1.Controls.Add(tabPageProfil);
+            tabControl1.Controls.Add(tabPageKasa);
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -163,7 +179,7 @@
             // lblKarsilama
             // 
             lblKarsilama.AutoSize = true;
-            lblKarsilama.Location = new Point(478, 48);
+            lblKarsilama.Location = new Point(167, 49);
             lblKarsilama.Name = "lblKarsilama";
             lblKarsilama.Size = new Size(50, 20);
             lblKarsilama.TabIndex = 2;
@@ -173,7 +189,7 @@
             // 
             lblToplamCalisan.AutoSize = true;
             lblToplamCalisan.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            lblToplamCalisan.Location = new Point(405, 101);
+            lblToplamCalisan.Location = new Point(478, 148);
             lblToplamCalisan.Name = "lblToplamCalisan";
             lblToplamCalisan.Size = new Size(50, 38);
             lblToplamCalisan.TabIndex = 1;
@@ -183,7 +199,7 @@
             // 
             lblToplamMusteri.AutoSize = true;
             lblToplamMusteri.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            lblToplamMusteri.Location = new Point(174, 89);
+            lblToplamMusteri.Location = new Point(167, 148);
             lblToplamMusteri.Name = "lblToplamMusteri";
             lblToplamMusteri.Size = new Size(50, 38);
             lblToplamMusteri.TabIndex = 0;
@@ -387,12 +403,13 @@
             // 
             // tabPageUrunler
             // 
+            tabPageUrunler.Controls.Add(buttonSil);
+            tabPageUrunler.Controls.Add(buttonGuncelle);
             tabPageUrunler.Controls.Add(groupBox2);
             tabPageUrunler.Controls.Add(groupBox1);
             tabPageUrunler.Controls.Add(label8);
             tabPageUrunler.Controls.Add(textBoxUrunAra);
             tabPageUrunler.Controls.Add(dataGridView2);
-            tabPageUrunler.Controls.Add(button2);
             tabPageUrunler.Location = new Point(4, 29);
             tabPageUrunler.Name = "tabPageUrunler";
             tabPageUrunler.Padding = new Padding(3);
@@ -400,6 +417,26 @@
             tabPageUrunler.TabIndex = 2;
             tabPageUrunler.Text = "Ürünler";
             tabPageUrunler.UseVisualStyleBackColor = true;
+            // 
+            // buttonSil
+            // 
+            buttonSil.Location = new Point(177, 367);
+            buttonSil.Name = "buttonSil";
+            buttonSil.Size = new Size(91, 32);
+            buttonSil.TabIndex = 12;
+            buttonSil.Text = "Kaydı Sil";
+            buttonSil.UseVisualStyleBackColor = true;
+            buttonSil.Click += buttonSil_Click;
+            // 
+            // buttonGuncelle
+            // 
+            buttonGuncelle.Location = new Point(8, 369);
+            buttonGuncelle.Name = "buttonGuncelle";
+            buttonGuncelle.Size = new Size(148, 29);
+            buttonGuncelle.TabIndex = 12;
+            buttonGuncelle.Text = "Stok Güncelle";
+            buttonGuncelle.UseVisualStyleBackColor = true;
+            buttonGuncelle.Click += buttonGuncelle_Click;
             // 
             // groupBox2
             // 
@@ -480,6 +517,7 @@
             // numericUpDownSatisFiyati
             // 
             numericUpDownSatisFiyati.Location = new Point(192, 157);
+            numericUpDownSatisFiyati.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
             numericUpDownSatisFiyati.Name = "numericUpDownSatisFiyati";
             numericUpDownSatisFiyati.Size = new Size(150, 27);
             numericUpDownSatisFiyati.TabIndex = 5;
@@ -497,6 +535,7 @@
             // numericUpDownAlisFiyati
             // 
             numericUpDownAlisFiyati.Location = new Point(191, 104);
+            numericUpDownAlisFiyati.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
             numericUpDownAlisFiyati.Name = "numericUpDownAlisFiyati";
             numericUpDownAlisFiyati.Size = new Size(150, 27);
             numericUpDownAlisFiyati.TabIndex = 4;
@@ -504,6 +543,7 @@
             // numericUpDownStok
             // 
             numericUpDownStok.Location = new Point(191, 50);
+            numericUpDownStok.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
             numericUpDownStok.Name = "numericUpDownStok";
             numericUpDownStok.Size = new Size(150, 27);
             numericUpDownStok.TabIndex = 3;
@@ -645,22 +685,14 @@
             // 
             // dataGridView2
             // 
+            dataGridView2.AllowUserToAddRows = false;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.Location = new Point(6, 65);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.RowHeadersWidth = 51;
             dataGridView2.Size = new Size(293, 293);
             dataGridView2.TabIndex = 1;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(41, 355);
-            button2.Name = "button2";
-            button2.Size = new Size(180, 36);
-            button2.TabIndex = 0;
-            button2.Text = "Ürünleri Getir";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            dataGridView2.CellDoubleClick += dataGridView2_CellDoubleClick;
             // 
             // tabPageMusteriler
             // 
@@ -771,6 +803,135 @@
             textBoxYeniSifre.Size = new Size(149, 27);
             textBoxYeniSifre.TabIndex = 0;
             // 
+            // tabPageKasa
+            // 
+            tabPageKasa.Controls.Add(label22);
+            tabPageKasa.Controls.Add(comboBoxMusteri);
+            tabPageKasa.Controls.Add(label21);
+            tabPageKasa.Controls.Add(label20);
+            tabPageKasa.Controls.Add(buttonSiparisIptal);
+            tabPageKasa.Controls.Add(buttonSiparisiTamamla);
+            tabPageKasa.Controls.Add(label19);
+            tabPageKasa.Controls.Add(dataGridViewSepet);
+            tabPageKasa.Controls.Add(comboBoxOdemeTuru);
+            tabPageKasa.Controls.Add(buttonSepeteEkle);
+            tabPageKasa.Controls.Add(textBoxBarkodKasa);
+            tabPageKasa.Location = new Point(4, 29);
+            tabPageKasa.Name = "tabPageKasa";
+            tabPageKasa.Padding = new Padding(3);
+            tabPageKasa.Size = new Size(772, 407);
+            tabPageKasa.TabIndex = 6;
+            tabPageKasa.Text = "KASA/POS İşlemleri";
+            tabPageKasa.UseVisualStyleBackColor = true;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Location = new Point(10, 142);
+            label22.Name = "label22";
+            label22.Size = new Size(62, 20);
+            label22.TabIndex = 10;
+            label22.Text = "Müşteri ";
+            // 
+            // comboBoxMusteri
+            // 
+            comboBoxMusteri.FormattingEnabled = true;
+            comboBoxMusteri.Location = new Point(10, 165);
+            comboBoxMusteri.Name = "comboBoxMusteri";
+            comboBoxMusteri.Size = new Size(204, 28);
+            comboBoxMusteri.TabIndex = 9;
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new Point(10, 88);
+            label21.Name = "label21";
+            label21.Size = new Size(91, 20);
+            label21.TabIndex = 8;
+            label21.Text = "Ödeme Türü";
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Location = new Point(8, 32);
+            label20.Name = "label20";
+            label20.Size = new Size(123, 20);
+            label20.TabIndex = 7;
+            label20.Text = "Barkod Numarası";
+            // 
+            // buttonSiparisIptal
+            // 
+            buttonSiparisIptal.BackColor = Color.DarkRed;
+            buttonSiparisIptal.Font = new Font("Segoe UI", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            buttonSiparisIptal.Location = new Point(389, 332);
+            buttonSiparisIptal.Name = "buttonSiparisIptal";
+            buttonSiparisIptal.Size = new Size(365, 61);
+            buttonSiparisIptal.TabIndex = 6;
+            buttonSiparisIptal.Text = "Sipariş İptal";
+            buttonSiparisIptal.UseVisualStyleBackColor = false;
+            buttonSiparisIptal.Click += buttonSiparisIptal_Click;
+            // 
+            // buttonSiparisiTamamla
+            // 
+            buttonSiparisiTamamla.BackColor = Color.OliveDrab;
+            buttonSiparisiTamamla.Font = new Font("Segoe UI", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            buttonSiparisiTamamla.Location = new Point(0, 332);
+            buttonSiparisiTamamla.Name = "buttonSiparisiTamamla";
+            buttonSiparisiTamamla.Size = new Size(373, 61);
+            buttonSiparisiTamamla.TabIndex = 5;
+            buttonSiparisiTamamla.Text = "Siparişi Tamamla";
+            buttonSiparisiTamamla.UseVisualStyleBackColor = false;
+            buttonSiparisiTamamla.Click += buttonSiparisiTamamla_Click;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            label19.Location = new Point(10, 248);
+            label19.Name = "label19";
+            label19.Size = new Size(0, 81);
+            label19.TabIndex = 4;
+            label19.Click += label19_Click;
+            // 
+            // dataGridViewSepet
+            // 
+            dataGridViewSepet.AllowUserToAddRows = false;
+            dataGridViewSepet.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewSepet.Location = new Point(250, 17);
+            dataGridViewSepet.Name = "dataGridViewSepet";
+            dataGridViewSepet.RowHeadersWidth = 51;
+            dataGridViewSepet.Size = new Size(504, 267);
+            dataGridViewSepet.TabIndex = 3;
+            // 
+            // comboBoxOdemeTuru
+            // 
+            comboBoxOdemeTuru.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxOdemeTuru.FormattingEnabled = true;
+            comboBoxOdemeTuru.Items.AddRange(new object[] { "Nakit", "", "Kredi Kartı", "", "Havale / EFT" });
+            comboBoxOdemeTuru.Location = new Point(10, 111);
+            comboBoxOdemeTuru.Name = "comboBoxOdemeTuru";
+            comboBoxOdemeTuru.Size = new Size(204, 28);
+            comboBoxOdemeTuru.TabIndex = 2;
+            // 
+            // buttonSepeteEkle
+            // 
+            buttonSepeteEkle.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            buttonSepeteEkle.Location = new Point(10, 218);
+            buttonSepeteEkle.Name = "buttonSepeteEkle";
+            buttonSepeteEkle.Size = new Size(204, 66);
+            buttonSepeteEkle.TabIndex = 1;
+            buttonSepeteEkle.Text = "Sepete Ekle";
+            buttonSepeteEkle.UseVisualStyleBackColor = true;
+            buttonSepeteEkle.Click += buttonSepeteEkle_Click;
+            // 
+            // textBoxBarkodKasa
+            // 
+            textBoxBarkodKasa.Location = new Point(8, 55);
+            textBoxBarkodKasa.Name = "textBoxBarkodKasa";
+            textBoxBarkodKasa.Size = new Size(206, 27);
+            textBoxBarkodKasa.TabIndex = 0;
+            textBoxBarkodKasa.KeyDown += textBoxBarkodKasa_KeyDown;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -804,6 +965,9 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView4).EndInit();
             tabPageProfil.ResumeLayout(false);
             tabPageProfil.PerformLayout();
+            tabPageKasa.ResumeLayout(false);
+            tabPageKasa.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewSepet).EndInit();
             ResumeLayout(false);
         }
 
@@ -815,7 +979,6 @@
         private TabPage tabPageDepartmanlar;
         private TabPage tabPageCalisanlar;
         private TabPage tabPageUrunler;
-        private Button button2;
         private DataGridView dataGridView2;
         private Button button4;
         private Button button3;
@@ -876,5 +1039,19 @@
         private Label label15;
         private Label label14;
         private Label label13;
+        private Button buttonSil;
+        private Button buttonGuncelle;
+        private TabPage tabPageKasa;
+        private Button buttonSepeteEkle;
+        private TextBox textBoxBarkodKasa;
+        private Button buttonSiparisIptal;
+        private Button buttonSiparisiTamamla;
+        private Label label19;
+        private DataGridView dataGridViewSepet;
+        private ComboBox comboBoxOdemeTuru;
+        private Label label21;
+        private Label label20;
+        private Label label22;
+        private ComboBox comboBoxMusteri;
     }
 }

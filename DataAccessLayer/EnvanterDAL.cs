@@ -28,5 +28,30 @@ namespace DataAccessLayer
 
             return SQLBaglantisi.EkleSilGuncelle(sorgu, prm);
         }
+        public static int StokGuncelle(EntityLayer.EnvanterStok e)
+        {
+            SqlParameter[] prm = {
+                new SqlParameter("@p1", e.Stok_Adeti),
+                new SqlParameter("@p2", e.Alis_Fiyati),
+                new SqlParameter("@p3", e.Satis_Fiyati),
+                new SqlParameter("@p4", e.Envanter_ID)
+            };
+
+            string sorgu = "UPDATE Envanter_Stoklar SET Stok_Adeti=@p1, Alis_Fiyati=@p2, Satis_Fiyati=@p3 WHERE Envanter_ID=@p4";
+            return SQLBaglantisi.EkleSilGuncelle(sorgu, prm);
+        }
+        public static int StokSil(int envanterID)
+        {
+            SqlParameter[] prm = {
+                new SqlParameter("@p1", envanterID)
+            };
+            string sorgu = "DELETE FROM Envanter_Stoklar WHERE Envanter_ID=@p1";
+            return SQLBaglantisi.EkleSilGuncelle(sorgu, prm);
+        }
+        public static System.Data.DataTable BarkodIleUrunGetir(string barkod)
+        {
+            SqlParameter[] prm = { new SqlParameter("@p1", barkod) };
+            return SQLBaglantisi.SorguCalistirTablo("SELECT * FROM VW_EnvanterDetay WHERE Barkod_NO = @p1", prm);
+        }
     }
 }

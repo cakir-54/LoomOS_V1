@@ -8,6 +8,11 @@ namespace LoomOS
 {
     public partial class Form1 : Form
     {
+        // Seçilen satırın ID'sini hafızada tutacak ajanımız
+        int secilenEnvanterID = 0;
+        // KASA MODÜLÜ İÇİN GEÇİCİ SANAL SEPET 
+        System.Data.DataTable sepetTablosu = new System.Data.DataTable();
+
         public Form1()
         {
             InitializeComponent();
@@ -113,23 +118,7 @@ namespace LoomOS
         #endregion
 
         #region Ürünler için
-        private void button2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //Bussinnes Layer'a gidip "Bana ürünleri getir" diyoruz.
-                var urunListesi = UrunManager.UrunListeleBL();
-                //Gelen listeyi ekrandaki tablomuza bağlıyoruz.
-                dataGridView2.DataSource = urunListesi;
-            }
-            catch (Exception hata)
-            {
-                MessageBox.Show("Veri çekilirken bir hata oluştu: \n\n" + hata.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
 
-
-        }
-        
         private void textBoxUrunAra_TextChanged(object sender, EventArgs e)
         {
             try
@@ -144,7 +133,7 @@ namespace LoomOS
             }
         }
 
-        
+
 
         private void buttonUrunEkle_Click(object sender, EventArgs e)
         {
@@ -152,10 +141,10 @@ namespace LoomOS
             if (string.IsNullOrWhiteSpace(textBoxUrunAd.Text) || string.IsNullOrWhiteSpace(TextBoxMarka.Text) || string.IsNullOrWhiteSpace(TextBoxBarkod.Text))
             {
                 MessageBox.Show("Lütfen Ürün Adı, Marka ve Barkod alanlarını doldurunuz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; 
+                return;
             }
 
-            if (comboBoxKategori.SelectedIndex == -1) 
+            if (comboBoxKategori.SelectedIndex == -1)
             {
                 MessageBox.Show("Lütfen listeden bir Kategori seçiniz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -225,7 +214,7 @@ namespace LoomOS
                 if (sonuc > 0)
                 {
                     MessageBox.Show("Stok ve Varyant bilgisi başarıyla eklendi!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    dataGridView3.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL();
+                    dataGridView2.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL();
                     // Ekranı yeni stok girişine hazırla (Ürün adı kalsın, beden/renk temizlensin)
                     textBoxRenk.Clear(); numericUpDownStok.Value = 0; numericUpDownAlisFiyati.Value = 0; numericUpDownSatisFiyati.Value = 0; comboBoxBeden.SelectedIndex = -1;
                 }
@@ -393,9 +382,38 @@ namespace LoomOS
 
             // Program açıldığında View'daki hazır listeyi ekrana bas
             dataGridView2.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL();
+
+            #region Sanal Sepet Tablosu Oluşturma
+            // SANAL SEPETİMİZİN SÜTUNLARINI OLUŞTURUYORUZ
+            sepetTablosu.Columns.Add("Envanter_ID", typeof(int));
+            sepetTablosu.Columns.Add("Barkod", typeof(string));
+            sepetTablosu.Columns.Add("Urun_Adi", typeof(string));
+            sepetTablosu.Columns.Add("Miktar", typeof(int));
+            sepetTablosu.Columns.Add("Birim_Fiyati", typeof(decimal));
+            sepetTablosu.Columns.Add("Ara_Toplam", typeof(decimal));
+
+            // Sepet Grid'ine bu boş sanal tabloyu bağlıyoruz
+            dataGridViewSepet.DataSource = sepetTablosu;
+            #endregion
+
+            #region ComboBox'a Müşteri Getirme (Satış ekranında)
+            System.Data.SqlClient.SqlParameter[] bosParametre = new System.Data.SqlClient.SqlParameter[0];
+            string sorguMusteri = "SELECT Musteri_ID, (Musteri_Adi + ' ' + Musteri_Soyadi) AS Ad_Soyad FROM Musteriler";
+            System.Data.DataTable dtMusteriler = SQLBaglantisi.SorguCalistirTablo(sorguMusteri, bosParametre);
+
+            // Herkes kayıtlı müşteri değildir! En başa "Perakende Müşteri" diye sahte bir satır ekliyoruz.
+            System.Data.DataRow sahteSatir = dtMusteriler.NewRow();
+            sahteSatir["Musteri_ID"] = 0; // 0 demek, aslında kimse yok demek
+            sahteSatir["Ad_Soyad"] = "--- Perakende Müşteri ---";
+            dtMusteriler.Rows.InsertAt(sahteSatir, 0); // Listenin en tepesine (0. index) yerleştir
+
+            comboBoxMusteri.DataSource = dtMusteriler;
+            comboBoxMusteri.DisplayMember = "Ad_Soyad"; // Kasiyer ismi görecek
+            comboBoxMusteri.ValueMember = "Musteri_ID";   // Arka planda ID tutulacak
+            #endregion
         }
 
-        
+
         private void button11_Click(object sender, EventArgs e)//Şifre Güncelle
         {
             try
@@ -418,7 +436,191 @@ namespace LoomOS
             {
                 MessageBox.Show(hata.Message, "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-        }        
+        }
+
+        private void dataGridView2_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow satir = dataGridView1.Rows[e.RowIndex];
+                secilenEnvanterID = Convert.ToInt32(satir.Cells[0].Value);
+                numericUpDownStok.Value = Convert.ToDecimal(satir.Cells["Stok_Miktari"].Value);
+                numericUpDownAlisFiyati.Value = Convert.ToDecimal(satir.Cells["Alis_Fiyati"].Value);
+                numericUpDownSatisFiyati.Value = Convert.ToDecimal(satir.Cells["Satis_Fiyati"].Value);
+
+            }
+        }
+
+        private void buttonGuncelle_Click(object sender, EventArgs e)
+        {
+            if (secilenEnvanterID == 0)
+            {
+                MessageBox.Show("Önce listeden güncellenecek kayda çift tıklayın!");
+                return;
+            }
+
+            try
+            {
+                EntityLayer.EnvanterStok guncelStok = new EntityLayer.EnvanterStok();
+                guncelStok.Envanter_ID = secilenEnvanterID;
+                guncelStok.Stok_Adeti = Convert.ToInt32(numericUpDownStok.Value);
+                guncelStok.Alis_Fiyati = numericUpDownAlisFiyati.Value;
+                guncelStok.Satis_Fiyati = numericUpDownSatisFiyati.Value;
+
+                int sonuc = BusinessLayer.EnvanterManager.StokGuncelleBL(guncelStok);
+                if (sonuc > 0)
+                {
+                    MessageBox.Show("Kayıt güncellendi!");
+                    dataGridView1.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL(); // Listeyi yenile
+                    secilenEnvanterID = 0; // Hafızayı temizle
+                }
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show(hata.Message);
+            }
+        }
+
+        private void buttonSil_Click(object sender, EventArgs e)
+        {
+            if (secilenEnvanterID == 0) { MessageBox.Show("Önce listeden silinecek kayda çift tıklayın!"); return; }
+
+            DialogResult cevap = MessageBox.Show("Bu kaydı kalıcı olarak silmek istediğinize emin misiniz?", "Silme Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (cevap == DialogResult.Yes)
+            {
+                int sonuc = BusinessLayer.EnvanterManager.StokSilBL(secilenEnvanterID);
+                if (sonuc > 0)
+                {
+                    MessageBox.Show("Kayıt silindi!");
+                    dataGridView1.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL(); // Listeyi yenile
+                    secilenEnvanterID = 0; // Hafızayı temizle
+                }
+            }
+        }
+        private void GenelToplamGuncelle()
+        {
+            decimal toplam = 0;
+            foreach (System.Data.DataRow satir in sepetTablosu.Rows)
+            {
+                toplam += Convert.ToDecimal(satir["Ara_Toplam"]);
+            }
+            label9.Text = toplam.ToString("C2");
+        }
+        private void UrunuSepeteEkle(string okunanBarkod)
+        {
+            if (string.IsNullOrWhiteSpace(okunanBarkod)) return;
+
+            try
+            {
+                // 1. Veritabanından (Sanal VIEW tablomuzdan) ürünü getir
+                System.Data.DataTable dtUrun = BusinessLayer.EnvanterManager.BarkodIleUrunGetirBL(okunanBarkod);
+
+                if (dtUrun.Rows.Count > 0)
+                {
+                    System.Data.DataRow urun = dtUrun.Rows[0];
+                    int envanterId = Convert.ToInt32(urun["Envanter_ID"]);
+                    string tamUrunAdi = urun["Urun_Adi"].ToString() + " - " + urun["Beden"].ToString() + " (" + urun["Renk"].ToString() + ")";
+                    decimal fiyat = Convert.ToDecimal(urun["Satis_Fiyati"]);
+
+                    bool sepetteVarMi = false;
+                    foreach (System.Data.DataRow satir in sepetTablosu.Rows)
+                    {
+                        if (Convert.ToInt32(satir["Envanter_ID"]) == envanterId)
+                        {
+                            satir["Miktar"] = Convert.ToInt32(satir["Miktar"]) + 1;
+                            satir["Ara_Toplam"] = Convert.ToInt32(satir["Miktar"]) * fiyat;
+                            sepetteVarMi = true;
+                            break;
+                        }
+                    }
+
+                    if (!sepetteVarMi) sepetTablosu.Rows.Add(envanterId, okunanBarkod, tamUrunAdi, 1, fiyat, fiyat);
+
+                    GenelToplamGuncelle();
+                    textBoxBarkodKasa.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("Bu barkoda ait ürün bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBoxBarkodKasa.SelectAll();
+                }
+            }
+            catch (Exception hata) { MessageBox.Show(hata.Message); }
+        }
+        private void textBoxBarkodKasa_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                UrunuSepeteEkle(textBoxBarkodKasa.Text.Trim()); // Merkezi metodu çağır
+            }
+        }
+
+        private void buttonSiparisiTamamla_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                EntityLayer.Siparis yeniSatis = new EntityLayer.Siparis();
+
+                int secilenMusteriID = Convert.ToInt32(comboBoxMusteri.SelectedValue);
+
+                if (secilenMusteriID == 0)
+                {
+                    yeniSatis.Musteri_ID = null;
+                }
+                else
+                {
+                    yeniSatis.Musteri_ID = secilenMusteriID; // Kayıtlı müşteri seçildiyse onun ID'sini ver
+                }
+
+                // Ödeme türünü ComboBox'tan alıyoruz
+                yeniSatis.Odeme_Turu = comboBoxOdemeTuru.Text;
+
+                decimal kesinToplam = 0;
+                foreach (System.Data.DataRow satir in sepetTablosu.Rows)
+                {
+                    kesinToplam += Convert.ToDecimal(satir["Ara_Toplam"]);
+                }
+                yeniSatis.Toplam_Tutar = kesinToplam;
+
+                // Sepet tablosunu Gümrüğe yolluyoruz
+                bool sonuc = BusinessLayer.SiparisManager.SatisiTamamlaBL(yeniSatis, sepetTablosu);
+
+                if (sonuc)
+                {
+                    MessageBox.Show("Satış Başarıyla Tamamlandı! Müşteriye fişini verebilirsiniz.", "Kasa İşlemi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Satış bitti, yeni müşteri için ekranı sıfırla!
+                    sepetTablosu.Rows.Clear();
+                    GenelToplamGuncelle(); // Toplamı tekrar 0.00 TL yapar
+                    comboBoxOdemeTuru.SelectedIndex = 0; // Tekrar Nakite çeker
+                    textBoxBarkodKasa.Focus(); // İmleci hemen barkod kutusuna geri alır
+                }
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show(hata.Message, "Satış İptal Edildi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonSiparisIptal_Click(object sender, EventArgs e)
+        {
+            sepetTablosu.Rows.Clear();
+            GenelToplamGuncelle();
+        }
+
+        private void label19_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonSepeteEkle_Click(object sender, EventArgs e)
+        {
+            UrunuSepeteEkle(textBoxBarkodKasa.Text.Trim()); // Merkezi metodu çağır
+            textBoxBarkodKasa.Focus(); 
+        }
     }
-    
+    }
+
 }

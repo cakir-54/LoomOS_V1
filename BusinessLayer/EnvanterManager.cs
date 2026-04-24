@@ -22,5 +22,23 @@ namespace BusinessLayer
 
             return EnvanterDAL.StokVaryantEkle(e);
         }
+        public static int StokGuncelleBL(EntityLayer.EnvanterStok e)
+        {
+            if (e.Envanter_ID <= 0) throw new Exception("Güncellenecek kayıt seçilemedi!");
+            if (e.Stok_Adeti < 0) throw new Exception("Stok eksi (-) olamaz!");
+            if (e.Satis_Fiyati <= e.Alis_Fiyati) throw new Exception("Satış fiyatı alıştan yüksek olmalıdır!");
+
+            return EnvanterDAL.StokGuncelle(e);
+        }
+        public static int StokSilBL(int envanterID)
+        {
+            if (envanterID <= 0) throw new Exception("Silinecek kayıt geçerli değil!");
+            return EnvanterDAL.StokSil(envanterID);
+        }
+        public static System.Data.DataTable BarkodIleUrunGetirBL(string barkod)
+        {
+            if (string.IsNullOrWhiteSpace(barkod)) throw new System.Exception("Barkod boş olamaz!");
+            return EnvanterDAL.BarkodIleUrunGetir(barkod);
+        }
     }
 }
