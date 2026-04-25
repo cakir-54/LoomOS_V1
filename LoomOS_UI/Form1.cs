@@ -299,8 +299,8 @@ namespace LoomOS
                 // 2. Gelen veriyi direkt tabloya basmadan önce bir "aramaSonucu" değişkenine alıyoruz
                 var aramaSonucu = MusteriManager.MusteriAraBL(aranan);
 
-                // 3. YENİ KONTROL: Eğer SQL'den dönen listenin içi BOŞSA (Count == 0)
-                if (aramaSonucu.Count == 0)
+                // 3. YENİ KONTROL: Eğer SQL'den dönen listenin içi BOŞSA (Rows.Count == 0)
+                if (aramaSonucu.Rows.Count == 0)
                 {
                     MessageBox.Show("Aradığınız kritere uygun bir müşteri bulunamadı.", "Kayıt Yok", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -398,7 +398,7 @@ namespace LoomOS
 
             #region ComboBox'a Müşteri Getirme (Satış ekranında)
             System.Data.SqlClient.SqlParameter[] bosParametre = new System.Data.SqlClient.SqlParameter[0];
-            string sorguMusteri = "SELECT Musteri_ID, (Musteri_Adi + ' ' + Musteri_Soyadi) AS Ad_Soyad FROM Musteriler";
+            string sorguMusteri = "SELECT Musteri_ID, (Ad + ' ' + Soyad) AS Ad_Soyad FROM Musteriler";
             System.Data.DataTable dtMusteriler = SQLBaglantisi.SorguCalistirTablo(sorguMusteri, bosParametre);
 
             // Herkes kayıtlı müşteri değildir! En başa "Perakende Müşteri" diye sahte bir satır ekliyoruz.
@@ -410,6 +410,32 @@ namespace LoomOS
             comboBoxMusteri.DataSource = dtMusteriler;
             comboBoxMusteri.DisplayMember = "Ad_Soyad"; // Kasiyer ismi görecek
             comboBoxMusteri.ValueMember = "Musteri_ID";   // Arka planda ID tutulacak
+            #endregion
+
+            #region Özet Ekranına İstatistikleri Getirme
+            try
+            {
+                //Ciroları Hesaplama
+                decimal toplamCiro = IstatistikManager.GunlukCiroBL();
+                decimal nakitCiro = IstatistikManager.GunlukCiroBL("Nakit");
+                decimal kartCiro = IstatistikManager.GunlukCiroBL("Kredi Kartı");
+                // Label'lara yazdırma
+                labelToplamCiro.Text = "Toplam Ciro: " + toplamCiro.ToString("C2");
+                labelNakitCiro.Text = "Nakit Ciro: " + nakitCiro.ToString("C2");
+                labelKrediCiro.Text = "Kredi Kartı Ciro: " + kartCiro.ToString("C2");
+
+                //Kritik stokları çekme ve kırmızya boyama
+                dataGridViewKritikStok.DataSource = IstatistikManager.KritikStoklariGetirBL();
+                dataGridViewKritikStok.BackgroundColor = System.Drawing.Color.Red;
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show("İstatistikler yüklenirken hata oluştu: " + hata.Message);
+            }
+            #endregion
+            #region Müşterileri Listeleme (Müşteriler sekmesi açıldığında)
+                dataGridView4.DataSource = BusinessLayer.MusteriManager.MusteriListeleBL();
+                dataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             #endregion
         }
 
@@ -618,9 +644,66 @@ namespace LoomOS
         private void buttonSepeteEkle_Click(object sender, EventArgs e)
         {
             UrunuSepeteEkle(textBoxBarkodKasa.Text.Trim()); // Merkezi metodu çağır
-            textBoxBarkodKasa.Focus(); 
+            textBoxBarkodKasa.Focus();
         }
-    }
+
+        private void tabPageDashboard_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPageMusteriler_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonMusteriEkle_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Artık 4. parametre olarak txtEmail'i de yolluyoruz
+                bool sonuc = BusinessLayer.MusteriManager.MusteriEkleBL(
+                    textBoxMusteriAdi.Text,
+                    textBoxMusteriSoyadi.Text,
+                    textBoxTelefon.Text,
+                    textBoxMail.Text
+                );
+
+                if (sonuc)
+                {
+                    MessageBox.Show("Müşteri başarıyla sisteme kaydedildi!", "CRM İşlemi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Temizlik
+                    textBoxMusteriAdi.Clear();
+                    textBoxMusteriSoyadi.Clear();
+                    textBoxTelefon.Clear();
+                    textBoxMail.Clear();
+                    textBox1.Clear(); // Aramayı da sıfırlayalım ki tam liste gelsin
+                    // Listeyi yenile
+                    dataGridView4.DataSource = BusinessLayer.MusteriManager.MusteriListeleBL();
+                }
+            }
+            catch (System.Exception hata)
+            {
+                MessageBox.Show(hata.Message, "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string aranan = textBox1.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(aranan))
+            {
+                // Eğer arama kutusu silinip boşaltıldıysa tüm müşterileri geri getir
+                dataGridView4.DataSource = BusinessLayer.MusteriManager.MusteriListeleBL();
+            }
+            else
+            {
+                // Kutuda bir harf bile yazsa filtreleyerek getir
+                dataGridView4.DataSource = BusinessLayer.MusteriManager.MusteriAraBL(aranan);
+            }
+        }
     }
 
 }

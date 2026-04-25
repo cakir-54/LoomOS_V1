@@ -2,35 +2,43 @@
 using EntityLayer;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace BusinessLayer
 {
     public class MusteriManager
     {
-        public static List<Musteri> MusteriListeleBL()
+        public static DataTable MusteriListeleBL()
         {
             // İleride buraya "Eğer kullanıcının yetkisi yoksa boş liste gönder" gibi if-else kuralları yazacağız.
             // Şimdilik özel bir kuralımız yok, DAL'dan gelen veriyi direkt onaylayıp yukarı gönderiyoruz.
-            return MusteriDAL.MusteriListele();
+            return MusteriDAL.MusterileriListele();
         }
 
         // Arama isteği gelirse onu da yönlendiriyoruz
-        public static List<Musteri> MusteriAraBL(string kelime)
+        public static DataTable MusteriAraBL(string arananKelime)
         {
-            // 1. KURAL: Kullanıcı kutuyu boş bırakıp butona bastıysa
-            if (string.IsNullOrWhiteSpace(kelime))
+            return DataAccessLayer.MusteriDAL.MusteriAra(arananKelime);
+        }
+        public static bool MusteriEkleBL(string ad, string soyad, string telefon, string email)
+        {
+            if (string.IsNullOrWhiteSpace(ad) || string.IsNullOrWhiteSpace(soyad))
             {
-                // UI katmanına (Forma) hata fırlatıyoruz
-                throw new Exception("Lütfen aramak için bir müşteri adı giriniz!");
+                throw new System.Exception("Müşteri adı ve soyadı boş bırakılamaz!");
             }
 
-            // 2. KURAL: Kullanıcı çok kısa bir harf (örn: sadece "A") girdiyse (Sunucuyu yormamak için)
-            if (kelime.Length < 2)
+            ad = ad.Trim().ToUpper();
+            soyad = soyad.Trim().ToUpper();
+
+            // Opsiyonel: Eğer e-posta yazılmışsa içinde '@' var mı diye kontrol edebiliriz
+            if (!string.IsNullOrWhiteSpace(email) && !email.Contains("@"))
             {
-                throw new Exception("Arama yapabilmek için en az 2 harf girmelisiniz!");
+                throw new System.Exception("Lütfen geçerli bir e-posta adresi giriniz!");
             }
-            return MusteriDAL.MusteriAra(kelime);
+
+            return DataAccessLayer.MusteriDAL.MusteriEkle(ad, soyad, telefon, email);
         }
+
     }
 }

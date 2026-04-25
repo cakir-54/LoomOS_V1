@@ -11,10 +11,18 @@ namespace BusinessLayer
         {
             return IstatistikDAL.ToplamMusteriSayisi();
         }
-
         public static string ToplamCalisanBL()
         {
             return IstatistikDAL.ToplamCalisanSayisi();
+        }
+        public static decimal GunlukCiroBL(string odemeTuru = "")
+        {
+            return IstatistikDAL.GunlukCiroGetir(odemeTuru);
+        }
+
+        public static System.Data.DataTable KritikStoklariGetirBL()
+        {
+            return IstatistikDAL.KritikStoklariGetir();
         }
     }
 }

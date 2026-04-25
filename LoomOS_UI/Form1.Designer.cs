@@ -32,6 +32,10 @@
             dataGridView1 = new DataGridView();
             tabControl1 = new TabControl();
             tabPageDashboard = new TabPage();
+            dataGridViewKritikStok = new DataGridView();
+            labelKrediCiro = new Label();
+            labelNakitCiro = new Label();
+            labelToplamCiro = new Label();
             lblKarsilama = new Label();
             lblToplamCalisan = new Label();
             lblToplamMusteri = new Label();
@@ -86,10 +90,17 @@
             textBoxUrunAra = new TextBox();
             dataGridView2 = new DataGridView();
             tabPageMusteriler = new TabPage();
-            button6 = new Button();
+            label26 = new Label();
+            label25 = new Label();
+            label24 = new Label();
+            label23 = new Label();
+            textBoxMail = new TextBox();
+            textBoxTelefon = new TextBox();
+            textBoxMusteriSoyadi = new TextBox();
+            textBoxMusteriAdi = new TextBox();
+            buttonMusteriEkle = new Button();
             textBox1 = new TextBox();
             dataGridView4 = new DataGridView();
-            button5 = new Button();
             tabPageProfil = new TabPage();
             button11 = new Button();
             label7 = new Label();
@@ -108,9 +119,11 @@
             comboBoxOdemeTuru = new ComboBox();
             buttonSepeteEkle = new Button();
             textBoxBarkodKasa = new TextBox();
+            label27 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl1.SuspendLayout();
             tabPageDashboard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewKritikStok).BeginInit();
             tabPageDepartmanlar.SuspendLayout();
             tabPageCalisanlar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
@@ -165,6 +178,10 @@
             // 
             // tabPageDashboard
             // 
+            tabPageDashboard.Controls.Add(dataGridViewKritikStok);
+            tabPageDashboard.Controls.Add(labelKrediCiro);
+            tabPageDashboard.Controls.Add(labelNakitCiro);
+            tabPageDashboard.Controls.Add(labelToplamCiro);
             tabPageDashboard.Controls.Add(lblKarsilama);
             tabPageDashboard.Controls.Add(lblToplamCalisan);
             tabPageDashboard.Controls.Add(lblToplamMusteri);
@@ -175,11 +192,51 @@
             tabPageDashboard.TabIndex = 4;
             tabPageDashboard.Text = "Özet";
             tabPageDashboard.UseVisualStyleBackColor = true;
+            tabPageDashboard.Click += tabPageDashboard_Click;
+            // 
+            // dataGridViewKritikStok
+            // 
+            dataGridViewKritikStok.AllowUserToAddRows = false;
+            dataGridViewKritikStok.AllowUserToDeleteRows = false;
+            dataGridViewKritikStok.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewKritikStok.Location = new Point(27, 62);
+            dataGridViewKritikStok.Name = "dataGridViewKritikStok";
+            dataGridViewKritikStok.ReadOnly = true;
+            dataGridViewKritikStok.RowHeadersWidth = 51;
+            dataGridViewKritikStok.Size = new Size(357, 313);
+            dataGridViewKritikStok.TabIndex = 6;
+            // 
+            // labelKrediCiro
+            // 
+            labelKrediCiro.AutoSize = true;
+            labelKrediCiro.Location = new Point(418, 234);
+            labelKrediCiro.Name = "labelKrediCiro";
+            labelKrediCiro.Size = new Size(58, 20);
+            labelKrediCiro.TabIndex = 5;
+            labelKrediCiro.Text = "label23";
+            // 
+            // labelNakitCiro
+            // 
+            labelNakitCiro.AutoSize = true;
+            labelNakitCiro.Location = new Point(418, 297);
+            labelNakitCiro.Name = "labelNakitCiro";
+            labelNakitCiro.Size = new Size(58, 20);
+            labelNakitCiro.TabIndex = 4;
+            labelNakitCiro.Text = "label23";
+            // 
+            // labelToplamCiro
+            // 
+            labelToplamCiro.AutoSize = true;
+            labelToplamCiro.Location = new Point(418, 171);
+            labelToplamCiro.Name = "labelToplamCiro";
+            labelToplamCiro.Size = new Size(58, 20);
+            labelToplamCiro.TabIndex = 3;
+            labelToplamCiro.Text = "label23";
             // 
             // lblKarsilama
             // 
             lblKarsilama.AutoSize = true;
-            lblKarsilama.Location = new Point(167, 49);
+            lblKarsilama.Location = new Point(27, 23);
             lblKarsilama.Name = "lblKarsilama";
             lblKarsilama.Size = new Size(50, 20);
             lblKarsilama.TabIndex = 2;
@@ -189,7 +246,7 @@
             // 
             lblToplamCalisan.AutoSize = true;
             lblToplamCalisan.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            lblToplamCalisan.Location = new Point(478, 148);
+            lblToplamCalisan.Location = new Point(418, 103);
             lblToplamCalisan.Name = "lblToplamCalisan";
             lblToplamCalisan.Size = new Size(50, 38);
             lblToplamCalisan.TabIndex = 1;
@@ -199,7 +256,7 @@
             // 
             lblToplamMusteri.AutoSize = true;
             lblToplamMusteri.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            lblToplamMusteri.Location = new Point(167, 148);
+            lblToplamMusteri.Location = new Point(418, 50);
             lblToplamMusteri.Name = "lblToplamMusteri";
             lblToplamMusteri.Size = new Size(50, 38);
             lblToplamMusteri.TabIndex = 0;
@@ -696,10 +753,18 @@
             // 
             // tabPageMusteriler
             // 
-            tabPageMusteriler.Controls.Add(button6);
+            tabPageMusteriler.Controls.Add(label27);
+            tabPageMusteriler.Controls.Add(label26);
+            tabPageMusteriler.Controls.Add(label25);
+            tabPageMusteriler.Controls.Add(label24);
+            tabPageMusteriler.Controls.Add(label23);
+            tabPageMusteriler.Controls.Add(textBoxMail);
+            tabPageMusteriler.Controls.Add(textBoxTelefon);
+            tabPageMusteriler.Controls.Add(textBoxMusteriSoyadi);
+            tabPageMusteriler.Controls.Add(textBoxMusteriAdi);
+            tabPageMusteriler.Controls.Add(buttonMusteriEkle);
             tabPageMusteriler.Controls.Add(textBox1);
             tabPageMusteriler.Controls.Add(dataGridView4);
-            tabPageMusteriler.Controls.Add(button5);
             tabPageMusteriler.Location = new Point(4, 29);
             tabPageMusteriler.Name = "tabPageMusteriler";
             tabPageMusteriler.Padding = new Padding(3);
@@ -707,42 +772,98 @@
             tabPageMusteriler.TabIndex = 3;
             tabPageMusteriler.Text = "Müşteriler";
             tabPageMusteriler.UseVisualStyleBackColor = true;
+            tabPageMusteriler.Click += tabPageMusteriler_Click;
             // 
-            // button6
+            // label26
             // 
-            button6.Location = new Point(711, 10);
-            button6.Name = "button6";
-            button6.Size = new Size(55, 30);
-            button6.TabIndex = 3;
-            button6.Text = "ARA";
-            button6.UseVisualStyleBackColor = true;
-            button6.Click += button6_Click;
+            label26.AutoSize = true;
+            label26.Location = new Point(410, 272);
+            label26.Name = "label26";
+            label26.Size = new Size(98, 20);
+            label26.TabIndex = 12;
+            label26.Text = "Müşteri Mail'i";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new Point(410, 199);
+            label25.Name = "label25";
+            label25.Size = new Size(178, 20);
+            label25.TabIndex = 11;
+            label25.Text = "Müşteri Telefon Numarası";
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new Point(410, 121);
+            label24.Name = "label24";
+            label24.Size = new Size(107, 20);
+            label24.TabIndex = 10;
+            label24.Text = "Müşteri Soyadı";
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Location = new Point(410, 42);
+            label23.Name = "label23";
+            label23.Size = new Size(85, 20);
+            label23.TabIndex = 9;
+            label23.Text = "Müşteri Adı";
+            // 
+            // textBoxMail
+            // 
+            textBoxMail.Location = new Point(410, 295);
+            textBoxMail.Name = "textBoxMail";
+            textBoxMail.Size = new Size(178, 27);
+            textBoxMail.TabIndex = 8;
+            // 
+            // textBoxTelefon
+            // 
+            textBoxTelefon.Location = new Point(410, 222);
+            textBoxTelefon.Name = "textBoxTelefon";
+            textBoxTelefon.Size = new Size(178, 27);
+            textBoxTelefon.TabIndex = 7;
+            // 
+            // textBoxMusteriSoyadi
+            // 
+            textBoxMusteriSoyadi.Location = new Point(410, 144);
+            textBoxMusteriSoyadi.Name = "textBoxMusteriSoyadi";
+            textBoxMusteriSoyadi.Size = new Size(178, 27);
+            textBoxMusteriSoyadi.TabIndex = 6;
+            // 
+            // textBoxMusteriAdi
+            // 
+            textBoxMusteriAdi.Location = new Point(410, 65);
+            textBoxMusteriAdi.Name = "textBoxMusteriAdi";
+            textBoxMusteriAdi.Size = new Size(178, 27);
+            textBoxMusteriAdi.TabIndex = 5;
+            // 
+            // buttonMusteriEkle
+            // 
+            buttonMusteriEkle.Location = new Point(410, 346);
+            buttonMusteriEkle.Name = "buttonMusteriEkle";
+            buttonMusteriEkle.Size = new Size(178, 40);
+            buttonMusteriEkle.TabIndex = 4;
+            buttonMusteriEkle.Text = "Müşteri Ekle";
+            buttonMusteriEkle.UseVisualStyleBackColor = true;
+            buttonMusteriEkle.Click += buttonMusteriEkle_Click;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(541, 13);
+            textBox1.Location = new Point(19, 32);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(162, 27);
+            textBox1.Size = new Size(361, 27);
             textBox1.TabIndex = 2;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // dataGridView4
             // 
             dataGridView4.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView4.Location = new Point(0, 50);
+            dataGridView4.Location = new Point(19, 65);
             dataGridView4.Name = "dataGridView4";
             dataGridView4.RowHeadersWidth = 51;
-            dataGridView4.Size = new Size(780, 350);
+            dataGridView4.Size = new Size(361, 321);
             dataGridView4.TabIndex = 1;
-            // 
-            // button5
-            // 
-            button5.Location = new Point(8, 6);
-            button5.Name = "button5";
-            button5.Size = new Size(190, 40);
-            button5.TabIndex = 0;
-            button5.Text = "Müşterileri Getir";
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
             // 
             // tabPageProfil
             // 
@@ -932,6 +1053,15 @@
             textBoxBarkodKasa.TabIndex = 0;
             textBoxBarkodKasa.KeyDown += textBoxBarkodKasa_KeyDown;
             // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new Point(19, 9);
+            label27.Name = "label27";
+            label27.Size = new Size(85, 20);
+            label27.TabIndex = 13;
+            label27.Text = "Müşteri Ara";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -945,6 +1075,7 @@
             tabControl1.ResumeLayout(false);
             tabPageDashboard.ResumeLayout(false);
             tabPageDashboard.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewKritikStok).EndInit();
             tabPageDepartmanlar.ResumeLayout(false);
             tabPageDepartmanlar.PerformLayout();
             tabPageCalisanlar.ResumeLayout(false);
@@ -984,8 +1115,6 @@
         private Button button3;
         private DataGridView dataGridView3;
         private TabPage tabPageMusteriler;
-        private Button button5;
-        private Button button6;
         private TextBox textBox1;
         private DataGridView dataGridView4;
         private TabPage tabPageDashboard;
@@ -1053,5 +1182,19 @@
         private Label label20;
         private Label label22;
         private ComboBox comboBoxMusteri;
+        private DataGridView dataGridViewKritikStok;
+        private Label labelKrediCiro;
+        private Label labelNakitCiro;
+        private Label labelToplamCiro;
+        private Button buttonMusteriEkle;
+        private Label label26;
+        private Label label25;
+        private Label label24;
+        private Label label23;
+        private TextBox textBoxMail;
+        private TextBox textBoxTelefon;
+        private TextBox textBoxMusteriSoyadi;
+        private TextBox textBoxMusteriAdi;
+        private Label label27;
     }
 }
