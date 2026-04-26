@@ -468,9 +468,9 @@ namespace LoomOS
         {
             if (e.RowIndex >= 0)
             {
-                DataGridViewRow satir = dataGridView1.Rows[e.RowIndex];
+                DataGridViewRow satir = dataGridView2.Rows[e.RowIndex];
                 secilenEnvanterID = Convert.ToInt32(satir.Cells[0].Value);
-                numericUpDownStok.Value = Convert.ToDecimal(satir.Cells["Stok_Miktari"].Value);
+                numericUpDownStok.Value = Convert.ToDecimal(satir.Cells["Stok_Adeti"].Value);
                 numericUpDownAlisFiyati.Value = Convert.ToDecimal(satir.Cells["Alis_Fiyati"].Value);
                 numericUpDownSatisFiyati.Value = Convert.ToDecimal(satir.Cells["Satis_Fiyati"].Value);
 

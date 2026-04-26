@@ -32,7 +32,7 @@ namespace DataAccessLayer
         public static DataTable MusteriAra(string arananKelime)
         {
             SqlParameter[] prm = new SqlParameter[1];
-            string sorgu = "SELECT Musteri_ID, Ad, Soyad, Telefon, Email, Kayit_Tarihi FROM Musteriler WHERE (Ad + ' ' + Soyad) LIKE @p1 OR Telefon LIKE @p1";
+            string sorgu = "SELECT Musteri_ID, Ad, Soyad, Tel_NO, Mail, Kayit_Tarihi FROM Musteriler WHERE (Ad + ' ' + Soyad) LIKE @p1 OR Tel_NO LIKE @p1";
             prm[0] = new SqlParameter("@p1", "%" + arananKelime + "%");
 
             return SQLBaglantisi.SorguCalistirTablo(sorgu, prm);
