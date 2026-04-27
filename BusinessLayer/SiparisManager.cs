@@ -19,7 +19,11 @@ namespace BusinessLayer
             s.Calisan_ID = EntityLayer.KullaniciSession.Calisan_ID;
             s.Siparis_Tarihi = DateTime.Now;
 
-            return DataAccessLayer.SiparisDAL.SatisiTamamla(s, sepet);
+            return SiparisDAL.SatisiTamamla(s, sepet);
+        }
+        public static DataTable SiparisGecmisiniGetirBL()
+        {
+            return SiparisDAL.SiparisGecmisiniGetir();
         }
     }
 }
