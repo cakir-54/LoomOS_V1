@@ -602,6 +602,8 @@ namespace LoomOS
 
             // Program açıldığında View'daki hazır listeyi ekrana bas
             dataGridView2.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL();
+            //Satın Alımlar sayfasını yenile
+            SayfayiYenile();
 
             #region Sanal Sepet Tablosu Oluşturma
             // SANAL SEPETİMİZİN SÜTUNLARINI OLUŞTURUYORUZ
@@ -706,6 +708,56 @@ namespace LoomOS
         private void buttonListeyiYenile_Click(object sender, EventArgs e)
         {
             SiparisGecmisiYenile();
+        }
+        private void SayfayiYenile()
+        {
+            try
+            {
+                //Tabloyu yenile
+                dataGridViewAlimGecmisi.DataSource = AlimDAL.AlimGecmisiGetir();
+                //Tedarikçi combox'ı
+                comboBoxTedarikci.DataSource = AlimDAL.TedarikcileriGetir();
+                comboBoxTedarikci.DisplayMember = "Firma_Adi";
+                comboBoxTedarikci.ValueMember = "Tedarikci_ID";
+                //Ürün combox'ı
+                comboBoxUrunMal.DataSource = AlimDAL.UrunleriGetir();
+                comboBoxUrunMal.DisplayMember = "Urun_Adi";
+                comboBoxUrunMal.ValueMember = "Urun_ID";
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show("Veriler yüklenirken hata oluştu: " + hata.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonSatinAl_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int tedarikciID = Convert.ToInt32(comboBoxTedarikci.SelectedValue);
+                int urunID = Convert.ToInt32(comboBoxUrunMal.SelectedValue);
+                int miktar = Convert.ToInt32(numericUpMiktar.Value);
+                decimal alisFiyati = Convert.ToDecimal(numericUpDownAlisUcreti.Value);
+                if (miktar <= 0)
+                {
+                    MessageBox.Show("Lütfen 0'dan büyük bir adet giriniz!");
+                    return;
+                }
+
+                if (DataAccessLayer.AlimDAL.SatinAlimYap(urunID, tedarikciID, miktar, alisFiyati))
+                {
+                    MessageBox.Show("Satın alma işlemi tamamlandı! Mal depoya girdi ve sistem güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Ekranı temizle ve listeyi yenile
+                    numericUpMiktar.Value = 0;
+                    numericUpDownAlisUcreti.Value = 0;
+                    SayfayiYenile(); // Yeni aldığın mal anında sağdaki Grid'de en üste düşecek!
+                }
+            }
+            catch(Exception hata)
+            {
+                MessageBox.Show("Hata: " + hata.Message);
+            }
         }
     }
 

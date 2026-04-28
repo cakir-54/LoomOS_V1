@@ -123,10 +123,17 @@
             tabPageSiparisGecmisi = new TabPage();
             buttonListeyiYenile = new Button();
             dataGridViewSiparisGecmisi = new DataGridView();
-            tabPageTedarik = new TabPage();
-            dataGridViewUrunlerTedarik = new DataGridView();
+            tabPageSatinAlimlar = new TabPage();
+            dataGridViewAlimGecmisi = new DataGridView();
+            buttonSatinAl = new Button();
+            label31 = new Label();
+            numericUpDownAlisUcreti = new NumericUpDown();
+            label30 = new Label();
+            numericUpMiktar = new NumericUpDown();
+            label29 = new Label();
+            comboBoxUrunMal = new ComboBox();
+            label28 = new Label();
             comboBoxTedarikci = new ComboBox();
-            numericUpDownAlinanDeger = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl1.SuspendLayout();
             tabPageDashboard.SuspendLayout();
@@ -148,9 +155,10 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewSepet).BeginInit();
             tabPageSiparisGecmisi.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewSiparisGecmisi).BeginInit();
-            tabPageTedarik.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewUrunlerTedarik).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDownAlinanDeger).BeginInit();
+            tabPageSatinAlimlar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewAlimGecmisi).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownAlisUcreti).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpMiktar).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -183,7 +191,7 @@
             tabControl1.Controls.Add(tabPageProfil);
             tabControl1.Controls.Add(tabPageKasa);
             tabControl1.Controls.Add(tabPageSiparisGecmisi);
-            tabControl1.Controls.Add(tabPageTedarik);
+            tabControl1.Controls.Add(tabPageSatinAlimlar);
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -1108,42 +1116,110 @@
             dataGridViewSiparisGecmisi.Size = new Size(486, 386);
             dataGridViewSiparisGecmisi.TabIndex = 0;
             // 
-            // tabPageTedarik
+            // tabPageSatinAlimlar
             // 
-            tabPageTedarik.Controls.Add(numericUpDownAlinanDeger);
-            tabPageTedarik.Controls.Add(comboBoxTedarikci);
-            tabPageTedarik.Controls.Add(dataGridViewUrunlerTedarik);
-            tabPageTedarik.Location = new Point(4, 29);
-            tabPageTedarik.Name = "tabPageTedarik";
-            tabPageTedarik.Padding = new Padding(3);
-            tabPageTedarik.Size = new Size(772, 407);
-            tabPageTedarik.TabIndex = 8;
-            tabPageTedarik.Text = "Tedarik/Mal Kabul";
-            tabPageTedarik.UseVisualStyleBackColor = true;
+            tabPageSatinAlimlar.Controls.Add(dataGridViewAlimGecmisi);
+            tabPageSatinAlimlar.Controls.Add(buttonSatinAl);
+            tabPageSatinAlimlar.Controls.Add(label31);
+            tabPageSatinAlimlar.Controls.Add(numericUpDownAlisUcreti);
+            tabPageSatinAlimlar.Controls.Add(label30);
+            tabPageSatinAlimlar.Controls.Add(numericUpMiktar);
+            tabPageSatinAlimlar.Controls.Add(label29);
+            tabPageSatinAlimlar.Controls.Add(comboBoxUrunMal);
+            tabPageSatinAlimlar.Controls.Add(label28);
+            tabPageSatinAlimlar.Controls.Add(comboBoxTedarikci);
+            tabPageSatinAlimlar.Location = new Point(4, 29);
+            tabPageSatinAlimlar.Name = "tabPageSatinAlimlar";
+            tabPageSatinAlimlar.Padding = new Padding(3);
+            tabPageSatinAlimlar.Size = new Size(772, 407);
+            tabPageSatinAlimlar.TabIndex = 8;
+            tabPageSatinAlimlar.Text = "Satın Alımlar/Mal Kabul";
+            tabPageSatinAlimlar.UseVisualStyleBackColor = true;
             // 
-            // dataGridViewUrunlerTedarik
+            // dataGridViewAlimGecmisi
             // 
-            dataGridViewUrunlerTedarik.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewUrunlerTedarik.Location = new Point(8, 18);
-            dataGridViewUrunlerTedarik.Name = "dataGridViewUrunlerTedarik";
-            dataGridViewUrunlerTedarik.RowHeadersWidth = 51;
-            dataGridViewUrunlerTedarik.Size = new Size(324, 315);
-            dataGridViewUrunlerTedarik.TabIndex = 0;
+            dataGridViewAlimGecmisi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewAlimGecmisi.Location = new Point(456, 32);
+            dataGridViewAlimGecmisi.Name = "dataGridViewAlimGecmisi";
+            dataGridViewAlimGecmisi.RowHeadersWidth = 51;
+            dataGridViewAlimGecmisi.Size = new Size(300, 305);
+            dataGridViewAlimGecmisi.TabIndex = 9;
+            // 
+            // buttonSatinAl
+            // 
+            buttonSatinAl.Location = new Point(41, 308);
+            buttonSatinAl.Name = "buttonSatinAl";
+            buttonSatinAl.Size = new Size(94, 29);
+            buttonSatinAl.TabIndex = 8;
+            buttonSatinAl.Text = "Stoğa Ekle";
+            buttonSatinAl.UseVisualStyleBackColor = true;
+            buttonSatinAl.Click += buttonSatinAl_Click;
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(41, 235);
+            label31.Name = "label31";
+            label31.Size = new Size(72, 20);
+            label31.TabIndex = 7;
+            label31.Text = "Alış Fiyatı";
+            // 
+            // numericUpDownAlisUcreti
+            // 
+            numericUpDownAlisUcreti.Location = new Point(41, 258);
+            numericUpDownAlisUcreti.Name = "numericUpDownAlisUcreti";
+            numericUpDownAlisUcreti.Size = new Size(150, 27);
+            numericUpDownAlisUcreti.TabIndex = 6;
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new Point(41, 168);
+            label30.Name = "label30";
+            label30.Size = new Size(90, 20);
+            label30.TabIndex = 5;
+            label30.Text = "Ürün Miktarı";
+            // 
+            // numericUpMiktar
+            // 
+            numericUpMiktar.Location = new Point(41, 191);
+            numericUpMiktar.Name = "numericUpMiktar";
+            numericUpMiktar.Size = new Size(150, 27);
+            numericUpMiktar.TabIndex = 4;
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Location = new Point(40, 99);
+            label29.Name = "label29";
+            label29.Size = new Size(67, 20);
+            label29.TabIndex = 3;
+            label29.Text = "Ürün Adı";
+            // 
+            // comboBoxUrunMal
+            // 
+            comboBoxUrunMal.FormattingEnabled = true;
+            comboBoxUrunMal.Location = new Point(40, 122);
+            comboBoxUrunMal.Name = "comboBoxUrunMal";
+            comboBoxUrunMal.Size = new Size(151, 28);
+            comboBoxUrunMal.TabIndex = 2;
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new Point(40, 32);
+            label28.Name = "label28";
+            label28.Size = new Size(95, 20);
+            label28.TabIndex = 1;
+            label28.Text = "Tedarikçi Adı";
             // 
             // comboBoxTedarikci
             // 
             comboBoxTedarikci.FormattingEnabled = true;
-            comboBoxTedarikci.Location = new Point(399, 37);
+            comboBoxTedarikci.Location = new Point(40, 55);
             comboBoxTedarikci.Name = "comboBoxTedarikci";
-            comboBoxTedarikci.Size = new Size(135, 28);
-            comboBoxTedarikci.TabIndex = 1;
-            // 
-            // numericUpDownAlinanDeger
-            // 
-            numericUpDownAlinanDeger.Location = new Point(399, 116);
-            numericUpDownAlinanDeger.Name = "numericUpDownAlinanDeger";
-            numericUpDownAlinanDeger.Size = new Size(150, 27);
-            numericUpDownAlinanDeger.TabIndex = 2;
+            comboBoxTedarikci.Size = new Size(151, 28);
+            comboBoxTedarikci.TabIndex = 0;
             // 
             // Form1
             // 
@@ -1184,9 +1260,11 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewSepet).EndInit();
             tabPageSiparisGecmisi.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridViewSiparisGecmisi).EndInit();
-            tabPageTedarik.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridViewUrunlerTedarik).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDownAlinanDeger).EndInit();
+            tabPageSatinAlimlar.ResumeLayout(false);
+            tabPageSatinAlimlar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewAlimGecmisi).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownAlisUcreti).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpMiktar).EndInit();
             ResumeLayout(false);
         }
 
@@ -1287,9 +1365,16 @@
         private TabPage tabPageSiparisGecmisi;
         private DataGridView dataGridViewSiparisGecmisi;
         private Button buttonListeyiYenile;
-        private TabPage tabPageTedarik;
-        private NumericUpDown numericUpDownAlinanDeger;
+        private TabPage tabPageSatinAlimlar;
+        private Label label31;
+        private NumericUpDown numericUpDownAlisUcreti;
+        private Label label30;
+        private NumericUpDown numericUpMiktar;
+        private Label label29;
+        private ComboBox comboBoxUrunMal;
+        private Label label28;
         private ComboBox comboBoxTedarikci;
-        private DataGridView dataGridViewUrunlerTedarik;
+        private DataGridView dataGridViewAlimGecmisi;
+        private Button buttonSatinAl;
     }
 }
