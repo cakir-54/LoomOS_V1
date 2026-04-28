@@ -24,7 +24,8 @@ namespace DataAccessLayer
                     A.Alim_Miktari * A.Alis_Fiyati AS [Toplam Tutar]
                 FROM Alim_Hareketleri A
                 INNER JOIN Tedarikciler T ON A.Tedarikci_ID = T.Tedarikci_ID
-                INNER JOIN Urunler U ON A.Urun_ID = U.Urun_ID
+                INNER JOIN Envanter_Stoklar E ON  A.Envanter_ID=E.Envanter_ID
+                INNER JOIN Urunler U ON E.Urun_ID = U.Urun_ID
                 ORDER BY A.Alim_ID DESC";
             return SQLBaglantisi.SorguCalistirTablo(sorgu, new SqlParameter[0]);
         }
@@ -34,30 +35,33 @@ namespace DataAccessLayer
             SqlTransaction islem = baglanti.BeginTransaction();
             try
             {
-                // Alım hareketlerini ekle
-                string sorgu1 = "INSERT INTO Alim_Hareketleri (Urun_ID, Tedarikci_ID, Alim_Miktari, Alis_Fiyati) VALUES (@uId, @tId, @miktar, @fiyat)";
+                //Envanteri Güncelle/Ekle ve Envanter_ID'yi Geri Ver
+                string sorgu1 = @"
+                IF EXISTS (SELECT 1 FROM Envanter_Stoklar WHERE Urun_ID = @uId)
+                BEGIN
+                    UPDATE Envanter_Stoklar SET Stok_Adeti = Stok_Adeti + @miktar WHERE Urun_ID = @uId;
+                    SELECT Envanter_ID FROM Envanter_Stoklar WHERE Urun_ID = @uId;
+                END
+
+                ELSE
+                BEGIN
+                    INSERT INTO Envanter_Stoklar (Urun_ID, Stok_Adeti) VALUES (@uId, @miktar);
+                    SELECT SCOPE_IDENTITY(); -- SQL'in otomatik verdiği yeni ID'yi yakala
+                END";
+
                 SqlCommand cmd1 = new SqlCommand(sorgu1, baglanti, islem);
                 cmd1.Parameters.AddWithValue("@uId", urunID);
-                cmd1.Parameters.AddWithValue("@tId", tedarikciID);
                 cmd1.Parameters.AddWithValue("@miktar", miktar);
-                cmd1.Parameters.AddWithValue("@fiyat", alisFiyati);
-                cmd1.ExecuteNonQuery();
-                // Stokları güncelle
-                string sorgu2 = @"
-                        IF EXISTS (SELECT 1 FROM Envanter_Stoklar WHERE Urun_ID = @uId)
-                            UPDATE Envanter_Stoklar SET Stok_Adeti = Stok_Adeti + @miktar WHERE Urun_ID = @uId
-                        ELSE
-                            INSERT INTO Envanter_Stoklar (Urun_ID, Stok_Adeti) VALUES (@uId, @miktar)";
+                // ExecuteScalar, sorgudan dönen İLK satırın İLK sütununu (Yani Envanter_ID'yi) C#'a integer olarak çeker!
+                int envanterId = Convert.ToInt32(cmd1.ExecuteScalar());
+                //Alım Hareketlerine kaydet
+                string sorgu2 = "INSERT INTO Alim_Hareketleri (Envanter_ID, Tedarikci_ID, Alim_Miktari, Alis_Fiyati) VALUES (@eId, @tId, @miktar, @fiyat)";
                 SqlCommand cmd2 = new SqlCommand(sorgu2, baglanti, islem);
-                cmd2.Parameters.AddWithValue("@uId", urunID);
+                cmd2.Parameters.AddWithValue("@eId", envanterId); // Bulduğumuz ID'yi buraya veriyoruz
+                cmd2.Parameters.AddWithValue("@tId", tedarikciID);
                 cmd2.Parameters.AddWithValue("@miktar", miktar);
+                cmd2.Parameters.AddWithValue("@fiyat", alisFiyati);
                 cmd2.ExecuteNonQuery();
-                //Ürünün alış fiyatını güncelle
-                string sorgu3 = "UPDATE Urunler SET Alis_Fiyati = @fiyat WHERE Urun_ID = @uId";
-                SqlCommand cmd3 = new SqlCommand(sorgu3, baglanti, islem);
-                cmd3.Parameters.AddWithValue("@fiyat", alisFiyati);
-                cmd3.Parameters.AddWithValue("@uId", urunID);
-                cmd3.ExecuteNonQuery();
                 islem.Commit();
                 return true;
             }
