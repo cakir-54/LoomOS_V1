@@ -134,6 +134,14 @@
             comboBoxUrunMal = new ComboBox();
             label28 = new Label();
             comboBoxTedarikci = new ComboBox();
+            tabPageZRaporu = new TabPage();
+            buttonYenile = new Button();
+            dataGridViewGecmisZ = new DataGridView();
+            buttonGunuKapat = new Button();
+            labelFisSayisi = new Label();
+            labelBugunKart = new Label();
+            labelBugunNakit = new Label();
+            labelBugunCiro = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl1.SuspendLayout();
             tabPageDashboard.SuspendLayout();
@@ -159,6 +167,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewAlimGecmisi).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownAlisUcreti).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpMiktar).BeginInit();
+            tabPageZRaporu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewGecmisZ).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -192,6 +202,7 @@
             tabControl1.Controls.Add(tabPageKasa);
             tabControl1.Controls.Add(tabPageSiparisGecmisi);
             tabControl1.Controls.Add(tabPageSatinAlimlar);
+            tabControl1.Controls.Add(tabPageZRaporu);
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -1221,6 +1232,91 @@
             comboBoxTedarikci.Size = new Size(151, 28);
             comboBoxTedarikci.TabIndex = 0;
             // 
+            // tabPageZRaporu
+            // 
+            tabPageZRaporu.Controls.Add(buttonYenile);
+            tabPageZRaporu.Controls.Add(dataGridViewGecmisZ);
+            tabPageZRaporu.Controls.Add(buttonGunuKapat);
+            tabPageZRaporu.Controls.Add(labelFisSayisi);
+            tabPageZRaporu.Controls.Add(labelBugunKart);
+            tabPageZRaporu.Controls.Add(labelBugunNakit);
+            tabPageZRaporu.Controls.Add(labelBugunCiro);
+            tabPageZRaporu.Location = new Point(4, 29);
+            tabPageZRaporu.Name = "tabPageZRaporu";
+            tabPageZRaporu.Padding = new Padding(3);
+            tabPageZRaporu.Size = new Size(772, 407);
+            tabPageZRaporu.TabIndex = 9;
+            tabPageZRaporu.Text = "Gün Sonu Raporu";
+            tabPageZRaporu.UseVisualStyleBackColor = true;
+            // 
+            // buttonYenile
+            // 
+            buttonYenile.Location = new Point(723, 122);
+            buttonYenile.Name = "buttonYenile";
+            buttonYenile.Size = new Size(41, 29);
+            buttonYenile.TabIndex = 7;
+            buttonYenile.Text = "Yenile";
+            buttonYenile.UseVisualStyleBackColor = true;
+            buttonYenile.Click += buttonYenile_Click;
+            // 
+            // dataGridViewGecmisZ
+            // 
+            dataGridViewGecmisZ.AllowUserToAddRows = false;
+            dataGridViewGecmisZ.AllowUserToDeleteRows = false;
+            dataGridViewGecmisZ.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewGecmisZ.Location = new Point(26, 122);
+            dataGridViewGecmisZ.Name = "dataGridViewGecmisZ";
+            dataGridViewGecmisZ.ReadOnly = true;
+            dataGridViewGecmisZ.RowHeadersWidth = 51;
+            dataGridViewGecmisZ.Size = new Size(691, 259);
+            dataGridViewGecmisZ.TabIndex = 6;
+            // 
+            // buttonGunuKapat
+            // 
+            buttonGunuKapat.Location = new Point(451, 29);
+            buttonGunuKapat.Name = "buttonGunuKapat";
+            buttonGunuKapat.Size = new Size(234, 66);
+            buttonGunuKapat.TabIndex = 5;
+            buttonGunuKapat.Text = "Günü Kapat";
+            buttonGunuKapat.UseVisualStyleBackColor = true;
+            buttonGunuKapat.Click += buttonGunuKapat_Click;
+            // 
+            // labelFisSayisi
+            // 
+            labelFisSayisi.AutoSize = true;
+            labelFisSayisi.Location = new Point(295, 75);
+            labelFisSayisi.Name = "labelFisSayisi";
+            labelFisSayisi.Size = new Size(58, 20);
+            labelFisSayisi.TabIndex = 3;
+            labelFisSayisi.Text = "label32";
+            // 
+            // labelBugunKart
+            // 
+            labelBugunKart.AutoSize = true;
+            labelBugunKart.Location = new Point(295, 29);
+            labelBugunKart.Name = "labelBugunKart";
+            labelBugunKart.Size = new Size(58, 20);
+            labelBugunKart.TabIndex = 2;
+            labelBugunKart.Text = "label32";
+            // 
+            // labelBugunNakit
+            // 
+            labelBugunNakit.AutoSize = true;
+            labelBugunNakit.Location = new Point(47, 75);
+            labelBugunNakit.Name = "labelBugunNakit";
+            labelBugunNakit.Size = new Size(58, 20);
+            labelBugunNakit.TabIndex = 1;
+            labelBugunNakit.Text = "label32";
+            // 
+            // labelBugunCiro
+            // 
+            labelBugunCiro.AutoSize = true;
+            labelBugunCiro.Location = new Point(47, 29);
+            labelBugunCiro.Name = "labelBugunCiro";
+            labelBugunCiro.Size = new Size(58, 20);
+            labelBugunCiro.TabIndex = 0;
+            labelBugunCiro.Text = "label32";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1265,6 +1361,9 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewAlimGecmisi).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownAlisUcreti).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpMiktar).EndInit();
+            tabPageZRaporu.ResumeLayout(false);
+            tabPageZRaporu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewGecmisZ).EndInit();
             ResumeLayout(false);
         }
 
@@ -1376,5 +1475,13 @@
         private ComboBox comboBoxTedarikci;
         private DataGridView dataGridViewAlimGecmisi;
         private Button buttonSatinAl;
+        private TabPage tabPageZRaporu;
+        private DataGridView dataGridViewGecmisZ;
+        private Button buttonGunuKapat;
+        private Label labelFisSayisi;
+        private Label labelBugunKart;
+        private Label labelBugunNakit;
+        private Label labelBugunCiro;
+        private Button buttonYenile;
     }
 }

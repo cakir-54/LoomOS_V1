@@ -754,9 +754,75 @@ namespace LoomOS
                     SayfayiYenile(); // Yeni aldığın mal anında sağdaki Grid'de en üste düşecek!
                 }
             }
-            catch(Exception hata)
+            catch (Exception hata)
             {
                 MessageBox.Show("Hata: " + hata.Message);
+            }
+        }
+
+        private void buttonYenile_Click(object sender, EventArgs e)
+        {
+            SayfayiYenileZ();
+        }
+
+        private void SayfayiYenileZ()
+        {
+            try
+            {
+                // 1. Geçmiş raporları tabloya doldur
+                dataGridViewGecmisZ.DataSource = DataAccessLayer.RaporDAL.GecmisRaporlariGetir();
+
+                // 2. Bugünün özetini çek ve Label'lara yaz
+                System.Data.DataTable ozet = DataAccessLayer.RaporDAL.BugununOzetiniGetir();
+
+                if (ozet.Rows.Count > 0)
+                {
+                    int fisSayisi = Convert.ToInt32(ozet.Rows[0]["FisSayisi"]);
+                    decimal ciro = Convert.ToDecimal(ozet.Rows[0]["Ciro"]);
+                    decimal nakit = Convert.ToDecimal(ozet.Rows[0]["NakitToplam"]);
+                    decimal kart = Convert.ToDecimal(ozet.Rows[0]["KartToplam"]);
+
+                    labelFisSayisi.Text = fisSayisi.ToString() + " Adet";
+                    labelBugunCiro.Text = ciro.ToString("C2");
+                    labelBugunNakit.Text = nakit.ToString("C2");
+                    labelBugunKart.Text = kart.ToString("C2");
+
+                    // Eğer hiç satış yoksa butonu devre dışı bırak ki boşuna kapatmasın
+                    buttonGunuKapat.Enabled = fisSayisi > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Raporlar yüklenirken hata: " + ex.Message);
+            }
+        }
+
+        private void buttonGunuKapat_Click(object sender, EventArgs e)
+        {
+            // Ciddi bir işlem olduğu için önce patrona emin misin diye soralım
+            DialogResult cevap = System.Windows.Forms.MessageBox.Show("Bugün için kasayı kapatmak ve Z raporu almak istediğinize emin misiniz? Bu işlem geri alınamaz.", "Kasa Kapatma Onayı", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Warning);
+
+            if (cevap == DialogResult.Yes)
+            {
+                try
+                {
+                    // Label'lardaki metinleri tekrar sayıya çevirmek risklidir, o yüzden veritabanından son bir kez daha çekip öyle kaydedelim:
+                    System.Data.DataTable ozet = DataAccessLayer.RaporDAL.BugununOzetiniGetir();
+                    int fis = Convert.ToInt32(ozet.Rows[0]["FisSayisi"]);
+                    decimal ciro = Convert.ToDecimal(ozet.Rows[0]["Ciro"]);
+                    decimal nakit = Convert.ToDecimal(ozet.Rows[0]["NakitToplam"]);
+                    decimal kart = Convert.ToDecimal(ozet.Rows[0]["KartToplam"]);
+
+                    if (DataAccessLayer.RaporDAL.Z_RaporuKaydet(fis, ciro, nakit, kart))
+                    {
+                        System.Windows.Forms.MessageBox.Show("Z Raporu başarıyla arşive eklendi! Kasa kapatıldı.", "İşlem Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        SayfayiYenileZ(); 
+                    }
+                }
+                catch (Exception hata)
+                {
+                    System.Windows.Forms.MessageBox.Show("Kapatma sırasında hata: " + hata.Message);
+                }
             }
         }
     }

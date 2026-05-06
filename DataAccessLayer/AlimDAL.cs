@@ -25,7 +25,7 @@ namespace DataAccessLayer
                 FROM Alim_Hareketleri A
                 INNER JOIN Tedarikciler T ON A.Tedarikci_ID = T.Tedarikci_ID
                 INNER JOIN Envanter_Stoklar E ON  A.Envanter_ID=E.Envanter_ID
-                INNER JOIN Urunler U ON E.Urun_ID = U.Urun_ID
+                INNER JOIN Urunler U ON E   .Urun_ID = U.Urun_ID
                 ORDER BY A.Alim_ID DESC";
             return SQLBaglantisi.SorguCalistirTablo(sorgu, new SqlParameter[0]);
         }
