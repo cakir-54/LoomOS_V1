@@ -9,18 +9,21 @@ namespace DataAccessLayer
     public class RaporDAL
     {
         //Bu günün satış özetini hseapla ve getir
-        public static DataTable BugununOzetiniGetir()
+        public static DataTable BugununOzetiniGetir()//BUraya sonradan bakacağım ~
         {
-            string sorgu = @" SELECT
-                COUNT(Siparis_ID) AS FisSayisi,
-                ISNULL(SUM(Toplam_Tutar),0)AS Ciro,
-                ISNULL(SUM(CASE WHEN Odeme_Turu='Nakit' THEN Toplam_Tutar ELSE 0 END ))AS NakitToplam,
-                ISNULL(SUM(CASE WHEN Odeme_Turu = 'Kredi Kartı' THEN Toplam_Tutar ELSE 0 END), 0) AS KartToplam,
-            FROM Siparis
-            WHERE CAST(Satis_Tarihi AS DATE)=CAST(GETDATE() AS DATE)";
-            return SQLBaglantisi.SorguCalistirTablo(sorgu, new SqlParameter[0]);
+            using (SqlConnection baglanti = SQLBaglantisi.BaglantiGetir())
+            {
+                SqlCommand cmd = new SqlCommand("sp_BugununOzetiniGetir", baglanti);
+
+                // SQL'e bunun normal bir sorgu değil, bir Stored Procedure olduğunu söylüyoruz.
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
         }
-        //Kasayı kapat ve Geçmişe at
         public static bool Z_RaporuKaydet(int fisSayisi,decimal ciro,decimal nakit,decimal kart)
         {
             SqlConnection baglanti=SQLBaglantisi.BaglantiGetir();
@@ -36,7 +39,7 @@ namespace DataAccessLayer
         //Geçmiş raporları tabloya dökme
         public static DataTable GecmisRaporlariGetir()
         {
-            string sorgu = "SELECT * FROM GunSonuRaporlari ORDER BY Rapor_Tarihi DESC";
+            string sorgu = "SELECT * FROM vw_GecmisZRaporlari ORDER BY [Kapatma Tarihi] DESC";
             return SQLBaglantisi.SorguCalistirTablo(sorgu, new SqlParameter[0]);
         }
     }
