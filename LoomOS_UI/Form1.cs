@@ -547,14 +547,29 @@ namespace LoomOS
                 // 1. KİŞİYİ KARŞILA
                 lblKarsilama.Text = "Hoş Geldin, " + EntityLayer.KullaniciSession.AdSoyad;
 
-                // 2. YETKİ KONTROLÜ! (Role-Based Authorization)
-                // Varsayım: Admin/Yönetici departmanının ID'si 1 olsun.
-                if (EntityLayer.KullaniciSession.Departman_ID != 5)
-                {
-                    // Eğer giren kişi Admin değilse, Çalışanlar ve Departmanlar sekmesini gizle!
-                    tabControl1.TabPages.Remove(tabPageCalisanlar);
-                    tabControl1.TabPages.Remove(tabPageDepartmanlar);
+                // YETKİ KONTROLÜ (Departman_ID üzerinden)
+                int depId = KullaniciSession.Departman_ID;
 
+                if (depId == 2) // 2: KASİYER (Sadece Satış Yapabilir)
+                {
+                    // Kasiyerse tehlikeli butonları ve sekmeleri kilitliyoruz
+                    // Eğer menü sekmeleri kullanıyorsan onları gizleyebilirsin
+                    // tabControl1.TabPages.Remove(tabTedarik); 
+                    // tabControl1.TabPages.Remove(tabRaporlar);
+
+                    // Veya doğrudan form üzerindeki butonları gizle
+                    buttonGunuKapat.Visible = false;
+                    buttonUrunEkle.Enabled = false;
+                    buttonSatinAl.Visible = false;
+                }
+                else if (depId == 1) // 1: YÖNETİCİ / PATRON
+                {
+                    // Patron girdiyse hiçbir kısıtlama yok, geminin bütün dümenleri serbest!
+                }
+                else
+                {
+                    // Depocu (Örn: depId == 3) gibi farklı departmanlar varsa
+                    // onları da burada kısıtlayıp sadece Mal Kabul ekranını açabilirsin.
                 }
 
                 lblToplamMusteri.Text = "Toplam Müşteri: " + IstatistikManager.ToplamMusteriBL();

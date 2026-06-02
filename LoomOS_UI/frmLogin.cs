@@ -18,30 +18,27 @@ namespace LoomOS
 
         private void login_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Calisan girenKisi = BusinessLayer.CalisanManager.GirisKontrolBL(txtTC.Text, txtSifre.Text);
+            string tc = txtTCKimlik.Text;
+            string sifre = txtSifre.Text;
 
-                if (girenKisi != null) // Yani eğer şifre doğruysa ve sistem birini bulduysa
-                {
-                    //Yaka kartına yazıyoruz
-                    EntityLayer.KullaniciSession.Calisan_ID = girenKisi.Calisan_ID;
-                    EntityLayer.KullaniciSession.Departman_ID = girenKisi.Departman_ID;
-                    EntityLayer.KullaniciSession.AdSoyad = girenKisi.Calisan_Ad + " " + girenKisi.Calisan_Soyad;
-                    //Ana sayfaya yönlendiriyoruz
-                    Form1 anaSayfa = new Form1();
-                    anaSayfa.Show();
-                    //Giriş formunu gizliyoruz
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("Hatalı TC Kimlik No veya Şifre girdiniz!", "Giriş Başarısız", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception hata)
+            System.Data.DataTable sonuc = DataAccessLayer.LoginDAL.KullaniciGirisiniKontrolEt(tc, sifre);
+
+            if (sonuc.Rows.Count > 0)
             {
-                MessageBox.Show(hata.Message, "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // 1. Giren kişinin kimliğini senin KULLANICISESSION sınıfına kazı!
+                // (Kendi sınıfındaki property isimlerini AdSoyad, CalisanId vs. nasıl yazdıysan ona göre eşleştir)
+                KullaniciSession.AdSoyad = sonuc.Rows[0]["Ad"].ToString() + " " + sonuc.Rows[0]["Soyad"].ToString();
+                KullaniciSession.Departman_ID = Convert.ToInt32(sonuc.Rows[0]["Departman_ID"]);
+                KullaniciSession.Calisan_ID = Convert.ToInt32(sonuc.Rows[0]["Calisan_ID"]);
+
+                // 2. Ana ekranı aç ve bu login ekranını gizle
+                Form1 anaEkran = new Form1();
+                anaEkran.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Hatalı TC Kimlik Numarası veya Şifre!", "Giriş Başarısız", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
