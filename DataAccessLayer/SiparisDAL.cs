@@ -46,11 +46,12 @@ namespace DataAccessLayer
                     cmdDetay.ExecuteNonQuery();
 
                     // Envanterden (Stoktan) Düş
-                    string sorguStok = "UPDATE Envanter_Stoklar SET Stok_Adeti = Stok_Adeti - @s1 WHERE Envanter_ID = @s2";
-                    SqlCommand cmdStok = new SqlCommand(sorguStok, baglanti, islem);
-                    cmdStok.Parameters.AddWithValue("@s1", satir["Miktar"]);
-                    cmdStok.Parameters.AddWithValue("@s2", satir["Envanter_ID"]);
-                    cmdStok.ExecuteNonQuery();
+
+                    //string sorguStok = "UPDATE Envanter_Stoklar SET Stok_Adeti = Stok_Adeti - @s1 WHERE Envanter_ID = @s2";
+                    //SqlCommand cmdStok = new SqlCommand(sorguStok, baglanti, islem);
+                    //cmdStok.Parameters.AddWithValue("@s1", satir["Miktar"]);
+                    //cmdStok.Parameters.AddWithValue("@s2", satir["Envanter_ID"]);
+                    //cmdStok.ExecuteNonQuery();
                 }
 
                 // 3. HER ŞEY KUSURSUZSA İŞLEMİ ONAYLA (Veritabanına kalıcı yaz)
