@@ -103,7 +103,7 @@ namespace DataAccessLayer
             };
 
             // Sadece şifreyi değiştir, kimin şifresini? Yaka kartındaki (Session) ID'nin!
-            return SQLBaglantisi.EkleSilGuncelle("UPDATE CALISANLAR SET Sifre = @p1 WHERE Calisan_ID = @p2", prm);
+            return SQLBaglantisi.EkleSilGuncelle("UPDATE Calisanlar SET Sifre = @p1 WHERE Calisan_ID = @p2", prm);
         }
     }
 }

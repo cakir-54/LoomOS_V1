@@ -550,7 +550,7 @@ namespace LoomOS
                 // YETKİ KONTROLÜ (Departman_ID üzerinden)
                 int depId = KullaniciSession.Departman_ID;
 
-                if (depId == 6) // 2: KASİYER (Sadece Satış Yapabilir)
+                if (depId == 2) // 2: KASİYER (Sadece Satış Yapabilir)
                 {
                     // Kasiyerse tehlikeli butonları ve sekmeleri kilitliyoruz
                     // Eğer menü sekmeleri kullanıyorsan onları gizleyebilirsin
@@ -562,14 +562,12 @@ namespace LoomOS
                     buttonUrunEkle.Enabled = false;
                     buttonSatinAl.Visible = false;
                 }
-                else if (depId == 5) // 1: YÖNETİCİ / PATRON
+                else if (depId == 1) // 1: YÖNETİCİ / PATRON
                 {
-                    // Patron girdiyse hiçbir kısıtlama yok, geminin bütün dümenleri serbest!
                 }
                 else
                 {
                     // Depocu (Örn: depId == 3) gibi farklı departmanlar varsa
-                    // onları da burada kısıtlayıp sadece Mal Kabul ekranını açabilirsin.
                 }
 
                 lblToplamMusteri.Text = "Toplam Müşteri: " + IstatistikManager.ToplamMusteriBL();
@@ -905,6 +903,7 @@ namespace LoomOS
                 }
             }
         }
+
     }
 
 }
