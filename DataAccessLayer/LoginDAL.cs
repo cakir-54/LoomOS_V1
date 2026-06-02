@@ -11,7 +11,7 @@ namespace DataAccessLayer
         public static DataTable KullaniciGirisiniKontrolEt(string tcKimlik, string sifre)
         {
             // TC Kimlik ve Şifre eşleşiyorsa, çalışanın ID, Ad, Soyad ve Departman bilgisini çekeriz.
-            string sorgu = "SELECT Calisan_ID, Ad, Soyad, Departman_ID FROM Calisanlar WHERE TC_Kimlik = @tc AND Sifre = @sifre";
+            string sorgu = "SELECT Calisan_ID, Ad, Soyad, Departman_ID FROM Calisanlar WHERE TC_NO = @tc AND Sifre = @sifre";
 
             using (SqlConnection baglanti = SQLBaglantisi.BaglantiGetir())
             {

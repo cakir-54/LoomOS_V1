@@ -18,7 +18,7 @@ namespace LoomOS
 
         private void login_Click(object sender, EventArgs e)
         {
-            string tc = txtTCKimlik.Text;
+            string tc = txtTC.Text;
             string sifre = txtSifre.Text;
 
             System.Data.DataTable sonuc = DataAccessLayer.LoginDAL.KullaniciGirisiniKontrolEt(tc, sifre);
