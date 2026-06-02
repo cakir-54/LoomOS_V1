@@ -831,12 +831,77 @@ namespace LoomOS
                     if (DataAccessLayer.RaporDAL.Z_RaporuKaydet(fis, ciro, nakit, kart))
                     {
                         System.Windows.Forms.MessageBox.Show("Z Raporu başarıyla arşive eklendi! Kasa kapatıldı.", "İşlem Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        SayfayiYenileZ(); 
+                        SayfayiYenileZ();
                     }
                 }
                 catch (Exception hata)
                 {
                     System.Windows.Forms.MessageBox.Show("Kapatma sırasında hata: " + hata.Message);
+                }
+            }
+        }
+
+        private void buttonFisAra_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(textBoxFisNo.Text, out int siparisId))
+            {
+                System.Data.DataTable dt = DataAccessLayer.IadeDAL.FisiGetir(siparisId);
+
+                if (dt.Rows.Count > 0)
+                {
+                    dataGridViewFisDetaylari.DataSource = dt;
+
+                    // Kullanıcı kafası karışmasın diye arka planda çalışan ID sütunlarını gizliyoruz
+                    dataGridViewFisDetaylari.Columns["Siparis_Detay_ID"].Visible = false;
+                    dataGridViewFisDetaylari.Columns["Siparis_ID"].Visible = false;
+                    dataGridViewFisDetaylari.Columns["Envanter_ID"].Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show("Bu numaraya ait bir sipariş bulunamadı!", "Uyarı");
+                }
+            }
+        }
+
+        private void buttonIadeAl_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewFisDetaylari.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Lütfen tablodan iade edilecek ürünü seçin!");
+                return;
+            }
+
+            if (comboBoxIadeNedeni.SelectedIndex == -1)
+            {
+                MessageBox.Show("Lütfen bir iade nedeni seçiniz!");
+                return;
+            }
+
+            // Grid'den gizli ve açık verileri çekiyoruz
+            int siparisDetayId = Convert.ToInt32(dataGridViewFisDetaylari.SelectedRows[0].Cells["Siparis_Detay_ID"].Value);
+            int siparisId = Convert.ToInt32(dataGridViewFisDetaylari.SelectedRows[0].Cells["Siparis_ID"].Value);
+            int envanterId = Convert.ToInt32(dataGridViewFisDetaylari.SelectedRows[0].Cells["Envanter_ID"].Value);
+
+            int miktar = Convert.ToInt32(dataGridViewFisDetaylari.SelectedRows[0].Cells["Satılan Adet"].Value);
+            decimal iadeTutari = Convert.ToDecimal(dataGridViewFisDetaylari.SelectedRows[0].Cells["Toplam Tutar"].Value);
+            string iadeNedeni = comboBoxIadeNedeni.SelectedItem.ToString();
+
+            DialogResult onay = MessageBox.Show($"Bu ürünü iade alıp, kasadan {iadeTutari:C2} ödeme yapmayı onaylıyor musunuz?", "İade Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (onay == DialogResult.Yes)
+            {
+                if (DataAccessLayer.IadeDAL.IadeIsleminiYap(siparisDetayId, siparisId, envanterId, miktar, iadeTutari, iadeNedeni))
+                {
+                    MessageBox.Show("İade işlemi başarıyla tamamlandı. Stok güncellendi ve para kasadan düşüldü.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Ekranı temizle ve listeyi yenile
+                    dataGridViewFisDetaylari.DataSource = null;
+                    textBoxFisNo.Clear();
+                    comboBoxIadeNedeni.SelectedIndex = -1;
+                }
+                else
+                {
+                    MessageBox.Show("İade işlemi sırasında veritabanında bir hata oluştu!");
                 }
             }
         }

@@ -142,6 +142,13 @@
             labelBugunKart = new Label();
             labelBugunNakit = new Label();
             labelBugunCiro = new Label();
+            tabPageIadeIslemleri = new TabPage();
+            comboBoxIadeNedeni = new ComboBox();
+            buttonIadeAl = new Button();
+            dataGridViewFisDetaylari = new DataGridView();
+            button5 = new Button();
+            buttonFisAra = new Button();
+            textBoxFisNo = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl1.SuspendLayout();
             tabPageDashboard.SuspendLayout();
@@ -169,6 +176,8 @@
             ((System.ComponentModel.ISupportInitialize)numericUpMiktar).BeginInit();
             tabPageZRaporu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewGecmisZ).BeginInit();
+            tabPageIadeIslemleri.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewFisDetaylari).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -203,6 +212,7 @@
             tabControl1.Controls.Add(tabPageSiparisGecmisi);
             tabControl1.Controls.Add(tabPageSatinAlimlar);
             tabControl1.Controls.Add(tabPageZRaporu);
+            tabControl1.Controls.Add(tabPageIadeIslemleri);
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -1317,6 +1327,75 @@
             labelBugunCiro.TabIndex = 0;
             labelBugunCiro.Text = "label32";
             // 
+            // tabPageIadeIslemleri
+            // 
+            tabPageIadeIslemleri.Controls.Add(comboBoxIadeNedeni);
+            tabPageIadeIslemleri.Controls.Add(buttonIadeAl);
+            tabPageIadeIslemleri.Controls.Add(dataGridViewFisDetaylari);
+            tabPageIadeIslemleri.Controls.Add(button5);
+            tabPageIadeIslemleri.Controls.Add(buttonFisAra);
+            tabPageIadeIslemleri.Controls.Add(textBoxFisNo);
+            tabPageIadeIslemleri.Location = new Point(4, 29);
+            tabPageIadeIslemleri.Name = "tabPageIadeIslemleri";
+            tabPageIadeIslemleri.Padding = new Padding(3);
+            tabPageIadeIslemleri.Size = new Size(772, 407);
+            tabPageIadeIslemleri.TabIndex = 10;
+            tabPageIadeIslemleri.Text = "İade İşlemleri";
+            tabPageIadeIslemleri.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxIadeNedeni
+            // 
+            comboBoxIadeNedeni.FormattingEnabled = true;
+            comboBoxIadeNedeni.Location = new Point(485, 25);
+            comboBoxIadeNedeni.Name = "comboBoxIadeNedeni";
+            comboBoxIadeNedeni.Size = new Size(238, 28);
+            comboBoxIadeNedeni.TabIndex = 5;
+            // 
+            // buttonIadeAl
+            // 
+            buttonIadeAl.Location = new Point(23, 335);
+            buttonIadeAl.Name = "buttonIadeAl";
+            buttonIadeAl.Size = new Size(403, 66);
+            buttonIadeAl.TabIndex = 4;
+            buttonIadeAl.Text = "İadeyi Onayla";
+            buttonIadeAl.UseVisualStyleBackColor = true;
+            buttonIadeAl.Click += buttonIadeAl_Click;
+            // 
+            // dataGridViewFisDetaylari
+            // 
+            dataGridViewFisDetaylari.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewFisDetaylari.Location = new Point(23, 65);
+            dataGridViewFisDetaylari.Name = "dataGridViewFisDetaylari";
+            dataGridViewFisDetaylari.RowHeadersWidth = 51;
+            dataGridViewFisDetaylari.Size = new Size(403, 264);
+            dataGridViewFisDetaylari.TabIndex = 3;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(432, 65);
+            button5.Name = "button5";
+            button5.Size = new Size(8, 8);
+            button5.TabIndex = 2;
+            button5.Text = "button5";
+            button5.UseVisualStyleBackColor = true;
+            // 
+            // buttonFisAra
+            // 
+            buttonFisAra.Location = new Point(277, 26);
+            buttonFisAra.Name = "buttonFisAra";
+            buttonFisAra.Size = new Size(123, 29);
+            buttonFisAra.TabIndex = 1;
+            buttonFisAra.Text = "Fiş Ara";
+            buttonFisAra.UseVisualStyleBackColor = true;
+            buttonFisAra.Click += buttonFisAra_Click;
+            // 
+            // textBoxFisNo
+            // 
+            textBoxFisNo.Location = new Point(23, 26);
+            textBoxFisNo.Name = "textBoxFisNo";
+            textBoxFisNo.Size = new Size(205, 27);
+            textBoxFisNo.TabIndex = 0;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1364,6 +1443,9 @@
             tabPageZRaporu.ResumeLayout(false);
             tabPageZRaporu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewGecmisZ).EndInit();
+            tabPageIadeIslemleri.ResumeLayout(false);
+            tabPageIadeIslemleri.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewFisDetaylari).EndInit();
             ResumeLayout(false);
         }
 
@@ -1483,5 +1565,12 @@
         private Label labelBugunNakit;
         private Label labelBugunCiro;
         private Button buttonYenile;
+        private TabPage tabPageIadeIslemleri;
+        private Button buttonIadeAl;
+        private DataGridView dataGridViewFisDetaylari;
+        private Button button5;
+        private Button buttonFisAra;
+        private TextBox textBoxFisNo;
+        private ComboBox comboBoxIadeNedeni;
     }
 }
