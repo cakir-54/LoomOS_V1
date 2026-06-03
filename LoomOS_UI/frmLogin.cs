@@ -25,13 +25,10 @@ namespace LoomOS
 
             if (sonuc.Rows.Count > 0)
             {
-                // 1. Giren kişinin kimliğini senin KULLANICISESSION sınıfına kazı!
-                // (Kendi sınıfındaki property isimlerini AdSoyad, CalisanId vs. nasıl yazdıysan ona göre eşleştir)
                 KullaniciSession.AdSoyad = sonuc.Rows[0]["Ad"].ToString() + " " + sonuc.Rows[0]["Soyad"].ToString();
                 KullaniciSession.Departman_ID = Convert.ToInt32(sonuc.Rows[0]["Departman_ID"]);
                 KullaniciSession.Calisan_ID = Convert.ToInt32(sonuc.Rows[0]["Calisan_ID"]);
 
-                // 2. Ana ekranı aç ve bu login ekranını gizle
                 Form1 anaEkran = new Form1();
                 anaEkran.Show();
                 this.Hide();
@@ -43,6 +40,16 @@ namespace LoomOS
         }
 
         private void frmLogin_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint_1(object sender, PaintEventArgs e)
         {
 
         }

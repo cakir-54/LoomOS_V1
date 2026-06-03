@@ -105,5 +105,36 @@ namespace DataAccessLayer
             // Sadece şifreyi değiştir, kimin şifresini? Yaka kartındaki (Session) ID'nin!
             return SQLBaglantisi.EkleSilGuncelle("UPDATE Calisanlar SET Sifre = @p1 WHERE Calisan_ID = @p2", prm);
         }
+
+        public static bool MaasGuncelle(string tcNo, decimal yeniMaas)
+        {
+            string sorgu = "UPDATE Calisanlar SET Maas = @yeniMaas WHERE TC_NO = @tc";
+            using (SqlConnection baglanti = SQLBaglantisi.BaglantiGetir())
+            {
+                SqlCommand cmd = new SqlCommand(sorgu, baglanti);
+                cmd.Parameters.AddWithValue("@yeniMaas", yeniMaas);
+                cmd.Parameters.AddWithValue("@tc", tcNo);
+
+                baglanti.Open();
+                // Eğer etkilenen satır 0'dan büyükse işlem başarılıdır (TC bulunmuştur)
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+        // PERSONELİ KOV (PASİFE ÇEK)
+        public static bool IstenCikar(string tcNo)
+        {
+            // Adamı silmiyoruz, sadece sistemdeki yetkisini (Aktif_Mi = 0) alıp kapı dışarı ediyoruz.
+            string sorgu = "UPDATE Calisanlar SET Aktif_Mi = 0, Sifre = 'KOVULDU' WHERE TC_NO = @tc";
+
+            using (SqlConnection baglanti = SQLBaglantisi.BaglantiGetir())
+            {
+                SqlCommand cmd = new SqlCommand(sorgu, baglanti);
+                cmd.Parameters.AddWithValue("@tc", tcNo);
+
+                baglanti.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
     }
 }

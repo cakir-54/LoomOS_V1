@@ -542,6 +542,7 @@ namespace LoomOS
 
         private void Form1_Load(object sender, EventArgs e)
         {
+#region HoşGeldin Ve Yetki Kontrolü
             try
             {
                 // 1. KİŞİYİ KARŞILA
@@ -552,12 +553,7 @@ namespace LoomOS
 
                 if (depId == 2) // 2: KASİYER (Sadece Satış Yapabilir)
                 {
-                    // Kasiyerse tehlikeli butonları ve sekmeleri kilitliyoruz
-                    // Eğer menü sekmeleri kullanıyorsan onları gizleyebilirsin
-                    // tabControl1.TabPages.Remove(tabTedarik); 
-                    // tabControl1.TabPages.Remove(tabRaporlar);
 
-                    // Veya doğrudan form üzerindeki butonları gizle
                     buttonGunuKapat.Visible = false;
                     buttonUrunEkle.Enabled = false;
                     buttonSatinAl.Visible = false;
@@ -577,6 +573,7 @@ namespace LoomOS
             {
                 MessageBox.Show("Sistem verileri yüklenemedi: " + hata.Message);
             }
+            #endregion
             //Siparis geçmişi sekmesine tıklandığında sipariş geçmişi tablosunu yenile
             SiparisGecmisiYenile();
             #region ComboBox'a Departmanları Getirme
@@ -904,6 +901,103 @@ namespace LoomOS
             }
         }
 
+        private void buttonMaasGuncelle_Click(object sender, EventArgs e)
+        {
+            string girilenTC = textBoxTC.Text.Trim();
+            decimal girilenMaas = numericUpDownMaas.Value;
+
+            // TC Alanı boş bırakılmış mı kontrolü
+            if (string.IsNullOrEmpty(girilenTC) || girilenTC.Length != 11)
+            {
+                MessageBox.Show("Lütfen 11 haneli geçerli bir TC Kimlik Numarası giriniz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (girilenMaas <= 0)
+            {
+                MessageBox.Show("Maaş tutarı 0 veya daha düşük olamaz!", "Hatalı Giriş", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult cevap = MessageBox.Show($"{girilenTC} TC numaralı personelin maaşını {girilenMaas:C2} olarak güncellemek istiyor musunuz?\n\n(Bu işlem sistem tarafından loglanacaktır.)", "Maaş Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (cevap == DialogResult.Yes)
+            {
+                try
+                {
+                    // DAL sınıfımızdaki metodu çağırıyoruz
+                    bool basarili = CalisanDAL.MaasGuncelle(girilenTC, girilenMaas);
+
+                    if (basarili)
+                    {
+                        MessageBox.Show("Maaş başarıyla güncellendi ve loglara kaydedildi!", "İşlem Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Formu temizle
+                        textBoxTC.Clear();
+                        numericUpDownMaas.Value = 0; // Veya asgari ücret değeri yazabilirsin
+
+                        // 1. İş Katmanından (BusinessLayer) çalışan listesini istiyoruz
+                        var calisanListesi = CalisanManager.CalisanListeleBL();
+
+                        // 2. Gelen listeyi Çalışanlar sekmesindeki DataGridView'e (tabloya) bağlıyoruz.
+                        // DİKKAT: Senin tablonun adı dataGridView2 değilse, buradaki ismi kendi tablonun adıyla değiştir.
+                        dataGridView3.DataSource = calisanListesi;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Bu TC Kimlik numarasına ait bir personel bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Güncelleme sırasında hata oluştu: " + ex.Message);
+                }
+            }
+        }
+
+        private void buttonIsCikisi_Click(object sender, EventArgs e)
+        {
+            string girilenTC = textBoxTC.Text.Trim();
+
+            if (string.IsNullOrEmpty(girilenTC) || girilenTC.Length != 11)
+            {
+                MessageBox.Show("Lütfen işine son verilecek personelin 11 haneli TC Kimlik Numarasını giriniz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Kendi kendini kovmasını engelle! (Patron TC'si 11111111111 ise)
+            if (girilenTC == "11111111111")
+            {
+                MessageBox.Show("Yönetici İşten Atılamaz", "HATA", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
+            DialogResult cevap = MessageBox.Show($"{girilenTC} TC numaralı personelin işine son vermek (sistemden erişimini kesmek) istediğinize emin misiniz?", "İşten Çıkarma Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+
+            if (cevap == DialogResult.Yes)
+            {
+                try
+                {
+                    bool basarili = CalisanDAL.IstenCikar(girilenTC);
+
+                    if (basarili)
+                    {
+                        MessageBox.Show("Personelin işine son verildi. Artık sisteme giriş yapamaz!", "İşlem Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        textBoxTC.Clear();
+                        // Ekrandaki çalışanlar listesini yenile (Ama yenilerken sadece Aktif olanları getirmeyi unutma!)
+                    }
+                    else
+                    {
+                        MessageBox.Show("Bu TC Kimlik numarasına ait bir personel bulunamadı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("İşlem sırasında hata oluştu: " + ex.Message);
+                }
+            }
+        }
     }
 
 }

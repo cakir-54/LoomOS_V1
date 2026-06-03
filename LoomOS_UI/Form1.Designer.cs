@@ -45,6 +45,13 @@
             button7 = new Button();
             textBox2 = new TextBox();
             tabPageCalisanlar = new TabPage();
+            buttonIsCikisi = new Button();
+            label35 = new Label();
+            label34 = new Label();
+            textBoxTC = new TextBox();
+            buttonMaasGuncelle = new Button();
+            numericUpDownMaas = new NumericUpDown();
+            labelMaasIslemleri = new Label();
             label5 = new Label();
             textBoxTelNO = new TextBox();
             label4 = new Label();
@@ -143,6 +150,8 @@
             labelBugunNakit = new Label();
             labelBugunCiro = new Label();
             tabPageIadeIslemleri = new TabPage();
+            label33 = new Label();
+            label32 = new Label();
             comboBoxIadeNedeni = new ComboBox();
             buttonIadeAl = new Button();
             dataGridViewFisDetaylari = new DataGridView();
@@ -155,6 +164,7 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewKritikStok).BeginInit();
             tabPageDepartmanlar.SuspendLayout();
             tabPageCalisanlar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMaas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
             tabPageUrunler.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -241,17 +251,17 @@
             dataGridViewKritikStok.AllowUserToAddRows = false;
             dataGridViewKritikStok.AllowUserToDeleteRows = false;
             dataGridViewKritikStok.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewKritikStok.Location = new Point(27, 62);
+            dataGridViewKritikStok.Location = new Point(27, 63);
             dataGridViewKritikStok.Name = "dataGridViewKritikStok";
             dataGridViewKritikStok.ReadOnly = true;
             dataGridViewKritikStok.RowHeadersWidth = 51;
-            dataGridViewKritikStok.Size = new Size(357, 313);
+            dataGridViewKritikStok.Size = new Size(351, 159);
             dataGridViewKritikStok.TabIndex = 6;
             // 
             // labelKrediCiro
             // 
             labelKrediCiro.AutoSize = true;
-            labelKrediCiro.Location = new Point(418, 234);
+            labelKrediCiro.Location = new Point(189, 300);
             labelKrediCiro.Name = "labelKrediCiro";
             labelKrediCiro.Size = new Size(58, 20);
             labelKrediCiro.TabIndex = 5;
@@ -260,7 +270,7 @@
             // labelNakitCiro
             // 
             labelNakitCiro.AutoSize = true;
-            labelNakitCiro.Location = new Point(418, 297);
+            labelNakitCiro.Location = new Point(189, 363);
             labelNakitCiro.Name = "labelNakitCiro";
             labelNakitCiro.Size = new Size(58, 20);
             labelNakitCiro.TabIndex = 4;
@@ -269,7 +279,7 @@
             // labelToplamCiro
             // 
             labelToplamCiro.AutoSize = true;
-            labelToplamCiro.Location = new Point(418, 171);
+            labelToplamCiro.Location = new Point(189, 234);
             labelToplamCiro.Name = "labelToplamCiro";
             labelToplamCiro.Size = new Size(58, 20);
             labelToplamCiro.TabIndex = 3;
@@ -278,7 +288,7 @@
             // lblKarsilama
             // 
             lblKarsilama.AutoSize = true;
-            lblKarsilama.Location = new Point(27, 23);
+            lblKarsilama.Location = new Point(27, 17);
             lblKarsilama.Name = "lblKarsilama";
             lblKarsilama.Size = new Size(50, 20);
             lblKarsilama.TabIndex = 2;
@@ -288,7 +298,7 @@
             // 
             lblToplamCalisan.AutoSize = true;
             lblToplamCalisan.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            lblToplamCalisan.Location = new Point(418, 103);
+            lblToplamCalisan.Location = new Point(27, 328);
             lblToplamCalisan.Name = "lblToplamCalisan";
             lblToplamCalisan.Size = new Size(50, 38);
             lblToplamCalisan.TabIndex = 1;
@@ -298,7 +308,7 @@
             // 
             lblToplamMusteri.AutoSize = true;
             lblToplamMusteri.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            lblToplamMusteri.Location = new Point(418, 50);
+            lblToplamMusteri.Location = new Point(27, 243);
             lblToplamMusteri.Name = "lblToplamMusteri";
             lblToplamMusteri.Size = new Size(50, 38);
             lblToplamMusteri.TabIndex = 0;
@@ -359,6 +369,13 @@
             // 
             // tabPageCalisanlar
             // 
+            tabPageCalisanlar.Controls.Add(buttonIsCikisi);
+            tabPageCalisanlar.Controls.Add(label35);
+            tabPageCalisanlar.Controls.Add(label34);
+            tabPageCalisanlar.Controls.Add(textBoxTC);
+            tabPageCalisanlar.Controls.Add(buttonMaasGuncelle);
+            tabPageCalisanlar.Controls.Add(numericUpDownMaas);
+            tabPageCalisanlar.Controls.Add(labelMaasIslemleri);
             tabPageCalisanlar.Controls.Add(label5);
             tabPageCalisanlar.Controls.Add(textBoxTelNO);
             tabPageCalisanlar.Controls.Add(label4);
@@ -380,6 +397,71 @@
             tabPageCalisanlar.TabIndex = 1;
             tabPageCalisanlar.Text = "Çalışanlar";
             tabPageCalisanlar.UseVisualStyleBackColor = true;
+            // 
+            // buttonIsCikisi
+            // 
+            buttonIsCikisi.BackColor = Color.Red;
+            buttonIsCikisi.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            buttonIsCikisi.ForeColor = Color.Gold;
+            buttonIsCikisi.Location = new Point(577, 245);
+            buttonIsCikisi.Name = "buttonIsCikisi";
+            buttonIsCikisi.Size = new Size(168, 125);
+            buttonIsCikisi.TabIndex = 20;
+            buttonIsCikisi.Text = "İŞ ÇIKIŞI YAP";
+            buttonIsCikisi.UseVisualStyleBackColor = false;
+            buttonIsCikisi.Click += buttonIsCikisi_Click;
+            // 
+            // label35
+            // 
+            label35.AutoSize = true;
+            label35.Location = new Point(471, 3);
+            label35.Name = "label35";
+            label35.Size = new Size(206, 20);
+            label35.TabIndex = 19;
+            label35.Text = "Muhasebe ve İnsan Kaynakları";
+            // 
+            // label34
+            // 
+            label34.AutoSize = true;
+            label34.Location = new Point(577, 66);
+            label34.Name = "label34";
+            label34.Size = new Size(144, 20);
+            label34.TabIndex = 18;
+            label34.Text = "T.C. Kimlik Numarası";
+            // 
+            // textBoxTC
+            // 
+            textBoxTC.Location = new Point(577, 96);
+            textBoxTC.Name = "textBoxTC";
+            textBoxTC.Size = new Size(174, 27);
+            textBoxTC.TabIndex = 17;
+            // 
+            // buttonMaasGuncelle
+            // 
+            buttonMaasGuncelle.Location = new Point(577, 199);
+            buttonMaasGuncelle.Name = "buttonMaasGuncelle";
+            buttonMaasGuncelle.Size = new Size(174, 29);
+            buttonMaasGuncelle.TabIndex = 16;
+            buttonMaasGuncelle.Text = "Güncelle";
+            buttonMaasGuncelle.UseVisualStyleBackColor = true;
+            buttonMaasGuncelle.Click += buttonMaasGuncelle_Click;
+            // 
+            // numericUpDownMaas
+            // 
+            numericUpDownMaas.Location = new Point(577, 166);
+            numericUpDownMaas.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
+            numericUpDownMaas.Name = "numericUpDownMaas";
+            numericUpDownMaas.Size = new Size(174, 27);
+            numericUpDownMaas.TabIndex = 15;
+            // 
+            // labelMaasIslemleri
+            // 
+            labelMaasIslemleri.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            labelMaasIslemleri.Location = new Point(577, 126);
+            labelMaasIslemleri.Name = "labelMaasIslemleri";
+            labelMaasIslemleri.Size = new Size(174, 37);
+            labelMaasIslemleri.TabIndex = 14;
+            labelMaasIslemleri.Text = "Çalışan Maaş";
             // 
             // label5
             // 
@@ -475,7 +557,7 @@
             // dataGridView3
             // 
             dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView3.Location = new Point(0, 50);
+            dataGridView3.Location = new Point(0, 6);
             dataGridView3.Name = "dataGridView3";
             dataGridView3.RowHeadersWidth = 51;
             dataGridView3.Size = new Size(396, 350);
@@ -483,9 +565,9 @@
             // 
             // button4
             // 
-            button4.Location = new Point(6, 4);
+            button4.Location = new Point(6, 362);
             button4.Name = "button4";
-            button4.Size = new Size(180, 40);
+            button4.Size = new Size(390, 40);
             button4.TabIndex = 1;
             button4.Text = "Çalışanları Getir";
             button4.UseVisualStyleBackColor = true;
@@ -1329,6 +1411,8 @@
             // 
             // tabPageIadeIslemleri
             // 
+            tabPageIadeIslemleri.Controls.Add(label33);
+            tabPageIadeIslemleri.Controls.Add(label32);
             tabPageIadeIslemleri.Controls.Add(comboBoxIadeNedeni);
             tabPageIadeIslemleri.Controls.Add(buttonIadeAl);
             tabPageIadeIslemleri.Controls.Add(dataGridViewFisDetaylari);
@@ -1343,19 +1427,38 @@
             tabPageIadeIslemleri.Text = "İade İşlemleri";
             tabPageIadeIslemleri.UseVisualStyleBackColor = true;
             // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.Location = new Point(485, 65);
+            label33.Name = "label33";
+            label33.Size = new Size(90, 20);
+            label33.TabIndex = 7;
+            label33.Text = "İade Nedeni";
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new Point(23, 10);
+            label32.Name = "label32";
+            label32.Size = new Size(120, 20);
+            label32.TabIndex = 6;
+            label32.Text = "Sipariş Numarası";
+            // 
             // comboBoxIadeNedeni
             // 
             comboBoxIadeNedeni.FormattingEnabled = true;
-            comboBoxIadeNedeni.Location = new Point(485, 25);
+            comboBoxIadeNedeni.Items.AddRange(new object[] { "Defolu Ürün", "Yanlış Ürün", "Bedeni Olmayan Ürün", "Diğer" });
+            comboBoxIadeNedeni.Location = new Point(485, 100);
             comboBoxIadeNedeni.Name = "comboBoxIadeNedeni";
             comboBoxIadeNedeni.Size = new Size(238, 28);
             comboBoxIadeNedeni.TabIndex = 5;
             // 
             // buttonIadeAl
             // 
-            buttonIadeAl.Location = new Point(23, 335);
+            buttonIadeAl.Location = new Point(485, 183);
             buttonIadeAl.Name = "buttonIadeAl";
-            buttonIadeAl.Size = new Size(403, 66);
+            buttonIadeAl.Size = new Size(269, 44);
             buttonIadeAl.TabIndex = 4;
             buttonIadeAl.Text = "İadeyi Onayla";
             buttonIadeAl.UseVisualStyleBackColor = true;
@@ -1367,7 +1470,7 @@
             dataGridViewFisDetaylari.Location = new Point(23, 65);
             dataGridViewFisDetaylari.Name = "dataGridViewFisDetaylari";
             dataGridViewFisDetaylari.RowHeadersWidth = 51;
-            dataGridViewFisDetaylari.Size = new Size(403, 264);
+            dataGridViewFisDetaylari.Size = new Size(453, 336);
             dataGridViewFisDetaylari.TabIndex = 3;
             // 
             // button5
@@ -1381,7 +1484,7 @@
             // 
             // buttonFisAra
             // 
-            buttonFisAra.Location = new Point(277, 26);
+            buttonFisAra.Location = new Point(330, 30);
             buttonFisAra.Name = "buttonFisAra";
             buttonFisAra.Size = new Size(123, 29);
             buttonFisAra.TabIndex = 1;
@@ -1391,9 +1494,9 @@
             // 
             // textBoxFisNo
             // 
-            textBoxFisNo.Location = new Point(23, 26);
+            textBoxFisNo.Location = new Point(23, 33);
             textBoxFisNo.Name = "textBoxFisNo";
-            textBoxFisNo.Size = new Size(205, 27);
+            textBoxFisNo.Size = new Size(276, 27);
             textBoxFisNo.TabIndex = 0;
             // 
             // Form1
@@ -1414,6 +1517,7 @@
             tabPageDepartmanlar.PerformLayout();
             tabPageCalisanlar.ResumeLayout(false);
             tabPageCalisanlar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMaas).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).EndInit();
             tabPageUrunler.ResumeLayout(false);
             tabPageUrunler.PerformLayout();
@@ -1572,5 +1676,14 @@
         private Button buttonFisAra;
         private TextBox textBoxFisNo;
         private ComboBox comboBoxIadeNedeni;
+        private Label label32;
+        private Label label33;
+        private Label labelMaasIslemleri;
+        private NumericUpDown numericUpDownMaas;
+        private Button buttonMaasGuncelle;
+        private Label label35;
+        private Label label34;
+        private TextBox textBoxTC;
+        private Button buttonIsCikisi;
     }
 }
