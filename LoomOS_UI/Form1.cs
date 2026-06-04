@@ -4,6 +4,7 @@ using EntityLayer;
 using System;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace LoomOS
 {
     public partial class Form1 : Form
@@ -549,21 +550,79 @@ namespace LoomOS
                 lblKarsilama.Text = "Hoş Geldin, " + EntityLayer.KullaniciSession.AdSoyad;
 
                 // YETKİ KONTROLÜ (Departman_ID üzerinden)
-                int depId = KullaniciSession.Departman_ID;
+                int rutbe = KullaniciSession.Departman_ID;
 
-                if (depId == 2) // 2: KASİYER (Sadece Satış Yapabilir)
+                // EKRANDAKİ BÜTÜN SEKMELERİ GİZLE
+                tabControl1.TabPages.Remove(tabPageCalisanlar);
+                tabControl1.TabPages.Remove(tabPageDashboard);
+                tabControl1.TabPages.Remove(tabPageDepartmanlar);
+                tabControl1.TabPages.Remove(tabPageIadeIslemleri);
+                tabControl1.TabPages.Remove(tabPageKasa);
+                tabControl1.TabPages.Remove(tabPageMusteriler);
+                tabControl1.TabPages.Remove(tabPageUrunler);
+                tabControl1.TabPages.Remove(tabPageProfil);
+                tabControl1.TabPages.Remove(tabPageSatinAlimlar);
+                tabControl1.TabPages.Remove(tabPageSiparisGecmisi);
+                tabControl1.TabPages.Remove(tabPageZRaporu);
+                buttonIsCikisi.Enabled = false;
+                // Yetki durumuna göre sekmeleri aç
+                switch (rutbe)
                 {
+                    case 1: // YÖNETİM (KAPTAN)
+                            // Patron her şeyi görür! Bütün butonları aktif et.
+                        tabControl1.TabPages.Add(tabPageCalisanlar);
+                        tabControl1.TabPages.Add(tabPageDashboard);
+                        tabControl1.TabPages.Add(tabPageDepartmanlar);
+                        tabControl1.TabPages.Add(tabPageIadeIslemleri);
+                        tabControl1.TabPages.Add(tabPageKasa);
+                        tabControl1.TabPages.Add(tabPageMusteriler);
+                        tabControl1.TabPages.Add(tabPageUrunler);
+                        tabControl1.TabPages.Add(tabPageProfil);
+                        tabControl1.TabPages.Add(tabPageSatinAlimlar);
+                        tabControl1.TabPages.Add(tabPageSiparisGecmisi);
+                        tabControl1.TabPages.Add(tabPageZRaporu);
+                        buttonIsCikisi.Enabled = true; // Patron istediği zaman çıkış yaptırabilsin
+                        break;
 
-                    buttonGunuKapat.Visible = false;
-                    buttonUrunEkle.Enabled = false;
-                    buttonSatinAl.Visible = false;
-                }
-                else if (depId == 1) // 1: YÖNETİCİ / PATRON
-                {
-                }
-                else
-                {
-                    // Depocu (Örn: depId == 3) gibi farklı departmanlar varsa
+                    case 2: // KASA / SATIŞ
+                        tabControl1.TabPages.Add(tabPageProfil);
+                        tabControl1.TabPages.Add(tabPageDashboard);
+                        tabControl1.TabPages.Add(tabPageKasa);
+                        tabControl1.TabPages.Add(tabPageSiparisGecmisi);
+                        tabControl1.TabPages.Add(tabPageIadeIslemleri);
+                        tabControl1.TabPages.Add(tabPageMusteriler);
+
+                        break;
+
+                    case 3: // DEPO / LOJİSTİK
+                        tabControl1.TabPages.Add(tabPageProfil);
+                        tabControl1.TabPages.Add(tabPageDashboard);
+                        tabControl1.TabPages.Add(tabPageUrunler);
+                        tabControl1.TabPages.Add(tabPageSiparisGecmisi);
+                        tabControl1.TabPages.Add(tabPageSatinAlimlar);
+
+                        break;
+
+                    case 4: // MUHASEBE VE FİNANS
+                        tabControl1.TabPages.Add(tabPageDashboard);
+                        tabControl1.TabPages.Add(tabPageUrunler);
+                        tabControl1.TabPages.Add(tabPageSiparisGecmisi);
+                        tabControl1.TabPages.Add(tabPageSatinAlimlar);
+                        tabControl1.TabPages.Add(tabPageCalisanlar);
+                        tabControl1.TabPages.Add(tabPageIadeIslemleri);
+                        button10.Visible = false; // Muhasebe departmanı çalışanları yeni personel ekleyemezler, bu yüzden bu butonu gizliyoruz.
+
+                        break;
+
+                    case 5: // İNSAN KAYNAKLARI
+                        tabControl1.TabPages.Add(tabPageDashboard);
+                        tabControl1.TabPages.Add(tabPageCalisanlar);
+                        tabControl1.TabPages.Add(tabPageMusteriler);
+                        break;
+
+                    default:
+                        MessageBox.Show("Geçersiz bir departman yetkisi tespit edildi!", "Güvenlik Uyarısı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        break;
                 }
 
                 lblToplamMusteri.Text = "Toplam Müşteri: " + IstatistikManager.ToplamMusteriBL();
