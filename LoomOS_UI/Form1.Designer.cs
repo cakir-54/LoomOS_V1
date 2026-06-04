@@ -171,6 +171,7 @@
             lblNetKasa = new Label();
             lblToplamGider = new Label();
             lblToplamGelir = new Label();
+            buttonCikisYap = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl1.SuspendLayout();
             tabPageDashboard.SuspendLayout();
@@ -1647,11 +1648,23 @@
             lblToplamGelir.TabIndex = 0;
             lblToplamGelir.Text = "Gelir";
             // 
+            // buttonCikisYap
+            // 
+            buttonCikisYap.BackColor = Color.Red;
+            buttonCikisYap.Location = new Point(772, 29);
+            buttonCikisYap.Name = "buttonCikisYap";
+            buttonCikisYap.Size = new Size(27, 27);
+            buttonCikisYap.TabIndex = 7;
+            buttonCikisYap.Text = "\u007f";
+            buttonCikisYap.UseVisualStyleBackColor = false;
+            buttonCikisYap.Click += buttonCikisYap_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonCikisYap);
             Controls.Add(tabControl1);
             Name = "Form1";
             Text = "Form1";
@@ -1849,5 +1862,6 @@
         private ComboBox cmbIslemTuru;
         private Button btnYenile;
         private Button btnKaydet;
+        private Button buttonCikisYap;
     }
 }
