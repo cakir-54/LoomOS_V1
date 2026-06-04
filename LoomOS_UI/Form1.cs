@@ -2,6 +2,7 @@ using BusinessLayer;
 using DataAccessLayer;
 using EntityLayer;
 using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -611,7 +612,7 @@ namespace LoomOS
 
         private void Form1_Load(object sender, EventArgs e)
         {
-#region HoşGeldin Ve Yetki Kontrolü
+            #region HoşGeldin Ve Yetki Kontrolü
             try
             {
                 if (KullaniciSession.Calisan_ID <= 0 || string.IsNullOrWhiteSpace(KullaniciSession.AdSoyad))
@@ -638,6 +639,7 @@ namespace LoomOS
                 tabControl1.TabPages.Remove(tabPageSatinAlimlar);
                 tabControl1.TabPages.Remove(tabPageSiparisGecmisi);
                 tabControl1.TabPages.Remove(tabPageZRaporu);
+                tabControl1.TabPages.Remove(tabPageFinans);
                 buttonIsCikisi.Enabled = false;
                 // Yetki durumuna göre sekmeleri aç
                 switch (rutbe)
@@ -655,6 +657,8 @@ namespace LoomOS
                         tabControl1.TabPages.Add(tabPageSatinAlimlar);
                         tabControl1.TabPages.Add(tabPageSiparisGecmisi);
                         tabControl1.TabPages.Add(tabPageZRaporu);
+                        tabControl1.TabPages.Add(tabPageFinans);
+
                         buttonIsCikisi.Enabled = true; // Patron istediği zaman çıkış yaptırabilsin
                         break;
 
@@ -684,6 +688,7 @@ namespace LoomOS
                         tabControl1.TabPages.Add(tabPageSatinAlimlar);
                         tabControl1.TabPages.Add(tabPageCalisanlar);
                         tabControl1.TabPages.Add(tabPageIadeIslemleri);
+                        tabControl1.TabPages.Add(tabPageFinans);
                         button10.Visible = false; // Muhasebe departmanı çalışanları yeni personel ekleyemezler, bu yüzden bu butonu gizliyoruz.
 
                         break;
@@ -798,11 +803,66 @@ namespace LoomOS
                 MessageBox.Show("İstatistikler yüklenirken hata oluştu: " + hata.Message);
             }
             #endregion
+
             #region Müşterileri Listeleme (Müşteriler sekmesi açıldığında)
             dataGridView4.DataSource = BusinessLayer.MusteriManager.MusteriListeleBL();
             dataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             #endregion
+            #region ComboBoxa'a İşlem Türü Getirme (Kasa sekmesi)
+            // Form açıldığında ComboBox'ı dolduralım (Eğer özelliklerden yapmadıysan)
+            cmbIslemTuru.Items.Add("Ek Gelir");
+            cmbIslemTuru.Items.Add("Ek Gider");
+            cmbIslemTuru.SelectedIndex = 0; // Varsayılan olarak Ek Gelir seçili gelsin
+            #endregion
+            KasaDurumunuGetir();
         }
+
+        private void KasaDurumunuGetir()
+        {
+            string sorgu = "SELECT Islem_Tipi AS [İşlem Türü], Tutar, Aciklama AS [Açıklama], Islem_Tarihi AS [Tarih] FROM Kasa_Hareketleri ORDER BY Islem_Tarihi DESC";
+            try
+            {
+                // 1. TABLOYU DOLDURMA İŞLEMİ
+                using (SqlConnection baglanti = SQLBaglantisi.BaglantiGetir())
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(sorgu, baglanti);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    dgvKasa.DataSource = dt;
+
+                    decimal toplamGelir = 0;
+                    decimal toplamGider = 0;
+
+                    // DataTable içindeki tüm satırları dönüp paraları topluyoruz
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        decimal tutar = Convert.ToDecimal(satir["Tutar"]);
+
+                        if (tutar > 0)
+                            toplamGelir += tutar; // Artıysa Gelirdir
+                        else
+                            toplamGider += tutar; // Eksi (-) ise Giderdir
+                    }
+
+                    // Net kasayı hesaplıyoruz (Gider zaten eksi olduğu için direkt toplayabiliriz)
+                    decimal netKasa = toplamGelir + toplamGider;
+
+                    // 3. EKRANDAKİ LABELLARA YAZDIRMA
+                    lblToplamGelir.Text = "Toplam Gelir: " + toplamGelir.ToString("C2");
+                    lblToplamGider.Text = "Toplam Gider: " + Math.Abs(toplamGider).ToString("C2"); // Eksiyi ekranda göstermemek için Mutlak Değer (Abs) aldık
+                    lblNetKasa.Text = "Net Bakiye: " + netKasa.ToString("C2");
+
+                    // Renklendirme Tüyosu: Kasa eksideyse kırmızı, artıdaysa yeşil yansın!
+                    lblNetKasa.ForeColor = netKasa < 0 ? System.Drawing.Color.Red : System.Drawing.Color.Green;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hazine dairesine ulaşılamadı: " + ex.Message, "Sistem Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void button11_Click(object sender, EventArgs e)//Şifre Güncelle
         {
             try
@@ -1147,6 +1207,57 @@ namespace LoomOS
                 }
             }
         }
-    }
 
+        private void btnYenile_Click(object sender, EventArgs e)
+        {
+            KasaDurumunuGetir();
+        }
+
+        private void btnKaydet_Click(object sender, EventArgs e)
+        {
+            // 1. Güvenlik Kontrolleri (Validation)
+            if (string.IsNullOrWhiteSpace(txtTutar.Text) || string.IsNullOrWhiteSpace(txtAciklama.Text))
+            {
+                MessageBox.Show("Lütfen tutar ve açıklama alanlarını doldurun!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!decimal.TryParse(txtTutar.Text, out decimal girilenTutar) || girilenTutar <= 0)
+            {
+                MessageBox.Show("Lütfen geçerli ve 0'dan büyük bir tutar girin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. İşlem Mantığı (Giderse tutarı eksi yap)
+            string islemTipi = cmbIslemTuru.SelectedItem.ToString();
+            decimal islemTutari = (islemTipi == "Ek Gider") ? (girilenTutar * -1) : girilenTutar;
+
+            // 3. Veritabanına Kayıt (SQL Injection'a karşı parametreli sorgu!)
+            string sorgu = "INSERT INTO Kasa_Hareketleri (Islem_Tipi, Tutar, Aciklama) VALUES (@tip, @tutar, @aciklama)";
+
+            try
+            {
+                using (SqlConnection baglanti = SQLBaglantisi.BaglantiGetir())
+                {
+                    SqlCommand komut = new SqlCommand(sorgu, baglanti);
+                    komut.Parameters.AddWithValue("@tip", islemTipi.ToUpper());
+                    komut.Parameters.AddWithValue("@tutar", islemTutari);
+                    komut.Parameters.AddWithValue("@aciklama", txtAciklama.Text);
+
+                    komut.ExecuteNonQuery();
+                }
+
+                MessageBox.Show("İşlem başarıyla kasaya yansıtıldı!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Formu temizle ve tabloyu güncelle
+                txtTutar.Clear();
+                txtAciklama.Clear();
+                KasaDurumunuGetir();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Kayıt sırasında bir hata oluştu: " + ex.Message, "Kritik Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
 }

@@ -158,6 +158,19 @@
             button5 = new Button();
             buttonFisAra = new Button();
             textBoxFisNo = new TextBox();
+            tabPageFinans = new TabPage();
+            btnYenile = new Button();
+            btnKaydet = new Button();
+            label38 = new Label();
+            label37 = new Label();
+            label36 = new Label();
+            txtAciklama = new TextBox();
+            txtTutar = new TextBox();
+            cmbIslemTuru = new ComboBox();
+            dgvKasa = new DataGridView();
+            lblNetKasa = new Label();
+            lblToplamGider = new Label();
+            lblToplamGelir = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl1.SuspendLayout();
             tabPageDashboard.SuspendLayout();
@@ -188,6 +201,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewGecmisZ).BeginInit();
             tabPageIadeIslemleri.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewFisDetaylari).BeginInit();
+            tabPageFinans.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvKasa).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -223,6 +238,7 @@
             tabControl1.Controls.Add(tabPageSatinAlimlar);
             tabControl1.Controls.Add(tabPageZRaporu);
             tabControl1.Controls.Add(tabPageIadeIslemleri);
+            tabControl1.Controls.Add(tabPageFinans);
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -1499,6 +1515,138 @@
             textBoxFisNo.Size = new Size(276, 27);
             textBoxFisNo.TabIndex = 0;
             // 
+            // tabPageFinans
+            // 
+            tabPageFinans.Controls.Add(btnYenile);
+            tabPageFinans.Controls.Add(btnKaydet);
+            tabPageFinans.Controls.Add(label38);
+            tabPageFinans.Controls.Add(label37);
+            tabPageFinans.Controls.Add(label36);
+            tabPageFinans.Controls.Add(txtAciklama);
+            tabPageFinans.Controls.Add(txtTutar);
+            tabPageFinans.Controls.Add(cmbIslemTuru);
+            tabPageFinans.Controls.Add(dgvKasa);
+            tabPageFinans.Controls.Add(lblNetKasa);
+            tabPageFinans.Controls.Add(lblToplamGider);
+            tabPageFinans.Controls.Add(lblToplamGelir);
+            tabPageFinans.Location = new Point(4, 29);
+            tabPageFinans.Name = "tabPageFinans";
+            tabPageFinans.Padding = new Padding(3);
+            tabPageFinans.Size = new Size(772, 407);
+            tabPageFinans.TabIndex = 11;
+            tabPageFinans.Text = "Finans ve Muhasebe";
+            tabPageFinans.UseVisualStyleBackColor = true;
+            // 
+            // btnYenile
+            // 
+            btnYenile.Location = new Point(435, 368);
+            btnYenile.Name = "btnYenile";
+            btnYenile.Size = new Size(118, 29);
+            btnYenile.TabIndex = 11;
+            btnYenile.Text = "Yenile";
+            btnYenile.UseVisualStyleBackColor = true;
+            btnYenile.Click += btnYenile_Click;
+            // 
+            // btnKaydet
+            // 
+            btnKaydet.Location = new Point(559, 333);
+            btnKaydet.Name = "btnKaydet";
+            btnKaydet.Size = new Size(187, 29);
+            btnKaydet.TabIndex = 10;
+            btnKaydet.Text = "İşlemi Kaydet";
+            btnKaydet.UseVisualStyleBackColor = true;
+            btnKaydet.Click += btnKaydet_Click;
+            // 
+            // label38
+            // 
+            label38.AutoSize = true;
+            label38.Location = new Point(559, 239);
+            label38.Name = "label38";
+            label38.Size = new Size(70, 20);
+            label38.TabIndex = 9;
+            label38.Text = "Açıklama";
+            // 
+            // label37
+            // 
+            label37.AutoSize = true;
+            label37.Location = new Point(559, 154);
+            label37.Name = "label37";
+            label37.Size = new Size(43, 20);
+            label37.TabIndex = 8;
+            label37.Text = "Tutar";
+            // 
+            // label36
+            // 
+            label36.AutoSize = true;
+            label36.Location = new Point(559, 73);
+            label36.Name = "label36";
+            label36.Size = new Size(77, 20);
+            label36.TabIndex = 7;
+            label36.Text = "İşlem Türü";
+            // 
+            // txtAciklama
+            // 
+            txtAciklama.Location = new Point(559, 262);
+            txtAciklama.Name = "txtAciklama";
+            txtAciklama.Size = new Size(187, 27);
+            txtAciklama.TabIndex = 6;
+            // 
+            // txtTutar
+            // 
+            txtTutar.Location = new Point(559, 177);
+            txtTutar.Name = "txtTutar";
+            txtTutar.Size = new Size(187, 27);
+            txtTutar.TabIndex = 5;
+            // 
+            // cmbIslemTuru
+            // 
+            cmbIslemTuru.FormattingEnabled = true;
+            cmbIslemTuru.Location = new Point(559, 96);
+            cmbIslemTuru.Name = "cmbIslemTuru";
+            cmbIslemTuru.Size = new Size(187, 28);
+            cmbIslemTuru.TabIndex = 4;
+            // 
+            // dgvKasa
+            // 
+            dgvKasa.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvKasa.Location = new Point(19, 64);
+            dgvKasa.Name = "dgvKasa";
+            dgvKasa.RowHeadersWidth = 51;
+            dgvKasa.Size = new Size(534, 298);
+            dgvKasa.TabIndex = 3;
+            // 
+            // lblNetKasa
+            // 
+            lblNetKasa.AutoSize = true;
+            lblNetKasa.BackColor = Color.Blue;
+            lblNetKasa.Location = new Point(393, 25);
+            lblNetKasa.Name = "lblNetKasa";
+            lblNetKasa.Size = new Size(64, 20);
+            lblNetKasa.TabIndex = 2;
+            lblNetKasa.Text = "NetKasa";
+            lblNetKasa.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // lblToplamGider
+            // 
+            lblToplamGider.AutoSize = true;
+            lblToplamGider.BackColor = Color.Red;
+            lblToplamGider.Location = new Point(197, 25);
+            lblToplamGider.Name = "lblToplamGider";
+            lblToplamGider.Size = new Size(45, 20);
+            lblToplamGider.TabIndex = 1;
+            lblToplamGider.Text = "Gider";
+            lblToplamGider.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // lblToplamGelir
+            // 
+            lblToplamGelir.AutoSize = true;
+            lblToplamGelir.BackColor = Color.Lime;
+            lblToplamGelir.Location = new Point(19, 25);
+            lblToplamGelir.Name = "lblToplamGelir";
+            lblToplamGelir.Size = new Size(40, 20);
+            lblToplamGelir.TabIndex = 0;
+            lblToplamGelir.Text = "Gelir";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1550,6 +1698,9 @@
             tabPageIadeIslemleri.ResumeLayout(false);
             tabPageIadeIslemleri.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewFisDetaylari).EndInit();
+            tabPageFinans.ResumeLayout(false);
+            tabPageFinans.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvKasa).EndInit();
             ResumeLayout(false);
         }
 
@@ -1685,5 +1836,18 @@
         private Label label34;
         private TextBox textBoxTC;
         private Button buttonIsCikisi;
+        private TabPage tabPageFinans;
+        private Label lblToplamGelir;
+        private DataGridView dgvKasa;
+        private Label lblNetKasa;
+        private Label lblToplamGider;
+        private Label label38;
+        private Label label37;
+        private Label label36;
+        private TextBox txtAciklama;
+        private TextBox txtTutar;
+        private ComboBox cmbIslemTuru;
+        private Button btnYenile;
+        private Button btnKaydet;
     }
 }
