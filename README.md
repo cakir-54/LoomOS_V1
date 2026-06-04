@@ -1,9 +1,6 @@
 # LoomOS — Konfeksiyon ve Giyim Mağazaları İçin ERP Otomasyon Sistemi
 
 > **Geliştirme Ortamı:** C# · .NET 10 · Windows Forms · Microsoft SQL Server  
-> **Mimari:** N-Tier (Çok Katmanlı) · ADO.NET · Parametreli Sorgular  
-> **Versiyon:** 1.0.0 · © 2026 LoomOS Project
-
 ---
 
 ## İçindekiler
@@ -518,5 +515,3 @@ Konfeksiyon ERP'nin kalbi olan bu modül, iki kademeli bir hiyerarşi sunar:
    > Z-raporu üretiminde kullanılan `sp_BugununOzetiniGetir` saklı yordamının ve `CommandType.StoredProcedure` ile C# entegrasyonunun teknik dayanağı.
 
 ---
-
-*Bu rapor, LoomOS v1.0.0 kaynak kodu analiz edilerek hazırlanmıştır. © 2026*
