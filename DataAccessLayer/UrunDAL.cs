@@ -14,8 +14,9 @@ namespace DataAccessLayer
             //Liste oluştuluyor
             List<Urun> urunListesi = new List<Urun>();
             //SQL sorgusu çalıştırılıyor
-            SqlDataReader oku=SQLBaglantisi.SorguCalistir("SELECT * FROM Urunler");
-            //Okunan veriler listeye ekleniyor
+            SqlDataReader oku = SQLBaglantisi.SorguCalistir("SELECT * FROM Urunler");
+            try
+            {
             while (oku.Read())
             {
                 //Yeni bir ürün nesnesi oluşturuluyor
@@ -29,9 +30,11 @@ namespace DataAccessLayer
                 //Oluşturulan ürün nesnesi listeye ekleniyor
                 urunListesi.Add(u);
             }
-            //Okuma işlemi tamamlandıktan sonra bağlantı kapatılıyor
-            oku.Close();
-            //Oluşturulan ürün listesi geri döndürülüyor
+            }
+            finally
+            {
+                oku.Close();
+            }
             return urunListesi;
         }
         public static int UrunEkle(EntityLayer.Urun u)

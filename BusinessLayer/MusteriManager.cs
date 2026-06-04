@@ -19,7 +19,14 @@ namespace BusinessLayer
         // Arama isteği gelirse onu da yönlendiriyoruz
         public static DataTable MusteriAraBL(string arananKelime)
         {
-            return DataAccessLayer.MusteriDAL.MusteriAra(arananKelime);
+            if (string.IsNullOrWhiteSpace(arananKelime))
+                return MusteriDAL.MusterileriListele();
+
+            arananKelime = arananKelime.Trim();
+            if (arananKelime.Length < 2)
+                throw new System.Exception("Arama için en az 2 karakter giriniz!");
+
+            return MusteriDAL.MusteriAra(arananKelime);
         }
         public static bool MusteriEkleBL(string ad, string soyad, string telefon, string email)
         {

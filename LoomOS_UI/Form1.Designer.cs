@@ -192,9 +192,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(8, 6);
+            button1.Location = new Point(3, 3);
             button1.Name = "button1";
-            button1.Size = new Size(180, 40);
+            button1.Size = new Size(758, 40);
             button1.TabIndex = 0;
             button1.Text = "Departmanları Getir\r\n";
             button1.UseVisualStyleBackColor = true;
@@ -203,10 +203,10 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(0, 50);
+            dataGridView1.Location = new Point(3, 46);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(770, 320);
+            dataGridView1.Size = new Size(763, 320);
             dataGridView1.TabIndex = 1;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -251,17 +251,17 @@
             dataGridViewKritikStok.AllowUserToAddRows = false;
             dataGridViewKritikStok.AllowUserToDeleteRows = false;
             dataGridViewKritikStok.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewKritikStok.Location = new Point(27, 63);
+            dataGridViewKritikStok.Location = new Point(27, 42);
             dataGridViewKritikStok.Name = "dataGridViewKritikStok";
             dataGridViewKritikStok.ReadOnly = true;
             dataGridViewKritikStok.RowHeadersWidth = 51;
-            dataGridViewKritikStok.Size = new Size(351, 159);
+            dataGridViewKritikStok.Size = new Size(696, 226);
             dataGridViewKritikStok.TabIndex = 6;
             // 
             // labelKrediCiro
             // 
             labelKrediCiro.AutoSize = true;
-            labelKrediCiro.Location = new Point(189, 300);
+            labelKrediCiro.Location = new Point(403, 318);
             labelKrediCiro.Name = "labelKrediCiro";
             labelKrediCiro.Size = new Size(58, 20);
             labelKrediCiro.TabIndex = 5;
@@ -270,7 +270,7 @@
             // labelNakitCiro
             // 
             labelNakitCiro.AutoSize = true;
-            labelNakitCiro.Location = new Point(189, 363);
+            labelNakitCiro.Location = new Point(403, 352);
             labelNakitCiro.Name = "labelNakitCiro";
             labelNakitCiro.Size = new Size(58, 20);
             labelNakitCiro.TabIndex = 4;
@@ -279,7 +279,7 @@
             // labelToplamCiro
             // 
             labelToplamCiro.AutoSize = true;
-            labelToplamCiro.Location = new Point(189, 234);
+            labelToplamCiro.Location = new Point(403, 285);
             labelToplamCiro.Name = "labelToplamCiro";
             labelToplamCiro.Size = new Size(58, 20);
             labelToplamCiro.TabIndex = 3;
@@ -288,7 +288,7 @@
             // lblKarsilama
             // 
             lblKarsilama.AutoSize = true;
-            lblKarsilama.Location = new Point(27, 17);
+            lblKarsilama.Location = new Point(27, 19);
             lblKarsilama.Name = "lblKarsilama";
             lblKarsilama.Size = new Size(50, 20);
             lblKarsilama.TabIndex = 2;
@@ -298,7 +298,7 @@
             // 
             lblToplamCalisan.AutoSize = true;
             lblToplamCalisan.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            lblToplamCalisan.Location = new Point(27, 328);
+            lblToplamCalisan.Location = new Point(105, 334);
             lblToplamCalisan.Name = "lblToplamCalisan";
             lblToplamCalisan.Size = new Size(50, 38);
             lblToplamCalisan.TabIndex = 1;
@@ -308,7 +308,7 @@
             // 
             lblToplamMusteri.AutoSize = true;
             lblToplamMusteri.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            lblToplamMusteri.Location = new Point(27, 243);
+            lblToplamMusteri.Location = new Point(105, 271);
             lblToplamMusteri.Name = "lblToplamMusteri";
             lblToplamMusteri.Size = new Size(50, 38);
             lblToplamMusteri.TabIndex = 0;
@@ -909,7 +909,7 @@
             // label26
             // 
             label26.AutoSize = true;
-            label26.Location = new Point(410, 272);
+            label26.Location = new Point(449, 272);
             label26.Name = "label26";
             label26.Size = new Size(98, 20);
             label26.TabIndex = 12;
@@ -918,7 +918,7 @@
             // label25
             // 
             label25.AutoSize = true;
-            label25.Location = new Point(410, 199);
+            label25.Location = new Point(449, 199);
             label25.Name = "label25";
             label25.Size = new Size(178, 20);
             label25.TabIndex = 11;
@@ -927,7 +927,7 @@
             // label24
             // 
             label24.AutoSize = true;
-            label24.Location = new Point(410, 121);
+            label24.Location = new Point(449, 121);
             label24.Name = "label24";
             label24.Size = new Size(107, 20);
             label24.TabIndex = 10;
@@ -936,7 +936,7 @@
             // label23
             // 
             label23.AutoSize = true;
-            label23.Location = new Point(410, 42);
+            label23.Location = new Point(449, 42);
             label23.Name = "label23";
             label23.Size = new Size(85, 20);
             label23.TabIndex = 9;
@@ -944,35 +944,35 @@
             // 
             // textBoxMail
             // 
-            textBoxMail.Location = new Point(410, 295);
+            textBoxMail.Location = new Point(449, 295);
             textBoxMail.Name = "textBoxMail";
             textBoxMail.Size = new Size(178, 27);
             textBoxMail.TabIndex = 8;
             // 
             // textBoxTelefon
             // 
-            textBoxTelefon.Location = new Point(410, 222);
+            textBoxTelefon.Location = new Point(449, 222);
             textBoxTelefon.Name = "textBoxTelefon";
             textBoxTelefon.Size = new Size(178, 27);
             textBoxTelefon.TabIndex = 7;
             // 
             // textBoxMusteriSoyadi
             // 
-            textBoxMusteriSoyadi.Location = new Point(410, 144);
+            textBoxMusteriSoyadi.Location = new Point(449, 144);
             textBoxMusteriSoyadi.Name = "textBoxMusteriSoyadi";
             textBoxMusteriSoyadi.Size = new Size(178, 27);
             textBoxMusteriSoyadi.TabIndex = 6;
             // 
             // textBoxMusteriAdi
             // 
-            textBoxMusteriAdi.Location = new Point(410, 65);
+            textBoxMusteriAdi.Location = new Point(449, 65);
             textBoxMusteriAdi.Name = "textBoxMusteriAdi";
             textBoxMusteriAdi.Size = new Size(178, 27);
             textBoxMusteriAdi.TabIndex = 5;
             // 
             // buttonMusteriEkle
             // 
-            buttonMusteriEkle.Location = new Point(410, 346);
+            buttonMusteriEkle.Location = new Point(449, 346);
             buttonMusteriEkle.Name = "buttonMusteriEkle";
             buttonMusteriEkle.Size = new Size(178, 40);
             buttonMusteriEkle.TabIndex = 4;
@@ -984,7 +984,7 @@
             // 
             textBox1.Location = new Point(19, 32);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(361, 27);
+            textBox1.Size = new Size(424, 27);
             textBox1.TabIndex = 2;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
@@ -994,7 +994,7 @@
             dataGridView4.Location = new Point(19, 65);
             dataGridView4.Name = "dataGridView4";
             dataGridView4.RowHeadersWidth = 51;
-            dataGridView4.Size = new Size(361, 321);
+            dataGridView4.Size = new Size(424, 321);
             dataGridView4.TabIndex = 1;
             // 
             // tabPageProfil
@@ -1199,9 +1199,9 @@
             // 
             // buttonListeyiYenile
             // 
-            buttonListeyiYenile.Location = new Point(540, 26);
+            buttonListeyiYenile.Location = new Point(6, 350);
             buttonListeyiYenile.Name = "buttonListeyiYenile";
-            buttonListeyiYenile.Size = new Size(187, 39);
+            buttonListeyiYenile.Size = new Size(758, 39);
             buttonListeyiYenile.TabIndex = 1;
             buttonListeyiYenile.Text = "Listeyi Yenile";
             buttonListeyiYenile.UseVisualStyleBackColor = true;
@@ -1212,11 +1212,11 @@
             dataGridViewSiparisGecmisi.AllowUserToAddRows = false;
             dataGridViewSiparisGecmisi.AllowUserToDeleteRows = false;
             dataGridViewSiparisGecmisi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewSiparisGecmisi.Location = new Point(8, 15);
+            dataGridViewSiparisGecmisi.Location = new Point(6, 3);
             dataGridViewSiparisGecmisi.Name = "dataGridViewSiparisGecmisi";
             dataGridViewSiparisGecmisi.ReadOnly = true;
             dataGridViewSiparisGecmisi.RowHeadersWidth = 51;
-            dataGridViewSiparisGecmisi.Size = new Size(486, 386);
+            dataGridViewSiparisGecmisi.Size = new Size(760, 341);
             dataGridViewSiparisGecmisi.TabIndex = 0;
             // 
             // tabPageSatinAlimlar
@@ -1242,10 +1242,10 @@
             // dataGridViewAlimGecmisi
             // 
             dataGridViewAlimGecmisi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewAlimGecmisi.Location = new Point(456, 32);
+            dataGridViewAlimGecmisi.Location = new Point(216, 32);
             dataGridViewAlimGecmisi.Name = "dataGridViewAlimGecmisi";
             dataGridViewAlimGecmisi.RowHeadersWidth = 51;
-            dataGridViewAlimGecmisi.Size = new Size(300, 305);
+            dataGridViewAlimGecmisi.Size = new Size(540, 305);
             dataGridViewAlimGecmisi.TabIndex = 9;
             // 
             // buttonSatinAl
@@ -1343,9 +1343,9 @@
             // 
             // buttonYenile
             // 
-            buttonYenile.Location = new Point(723, 122);
+            buttonYenile.Location = new Point(691, 86);
             buttonYenile.Name = "buttonYenile";
-            buttonYenile.Size = new Size(41, 29);
+            buttonYenile.Size = new Size(75, 29);
             buttonYenile.TabIndex = 7;
             buttonYenile.Text = "Yenile";
             buttonYenile.UseVisualStyleBackColor = true;
@@ -1356,11 +1356,11 @@
             dataGridViewGecmisZ.AllowUserToAddRows = false;
             dataGridViewGecmisZ.AllowUserToDeleteRows = false;
             dataGridViewGecmisZ.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewGecmisZ.Location = new Point(26, 122);
+            dataGridViewGecmisZ.Location = new Point(11, 121);
             dataGridViewGecmisZ.Name = "dataGridViewGecmisZ";
             dataGridViewGecmisZ.ReadOnly = true;
             dataGridViewGecmisZ.RowHeadersWidth = 51;
-            dataGridViewGecmisZ.Size = new Size(691, 259);
+            dataGridViewGecmisZ.Size = new Size(758, 259);
             dataGridViewGecmisZ.TabIndex = 6;
             // 
             // buttonGunuKapat
@@ -1430,7 +1430,7 @@
             // label33
             // 
             label33.AutoSize = true;
-            label33.Location = new Point(485, 65);
+            label33.Location = new Point(482, 135);
             label33.Name = "label33";
             label33.Size = new Size(90, 20);
             label33.TabIndex = 7;
@@ -1449,14 +1449,14 @@
             // 
             comboBoxIadeNedeni.FormattingEnabled = true;
             comboBoxIadeNedeni.Items.AddRange(new object[] { "Defolu Ürün", "Yanlış Ürün", "Bedeni Olmayan Ürün", "Diğer" });
-            comboBoxIadeNedeni.Location = new Point(485, 100);
+            comboBoxIadeNedeni.Location = new Point(482, 158);
             comboBoxIadeNedeni.Name = "comboBoxIadeNedeni";
-            comboBoxIadeNedeni.Size = new Size(238, 28);
+            comboBoxIadeNedeni.Size = new Size(281, 28);
             comboBoxIadeNedeni.TabIndex = 5;
             // 
             // buttonIadeAl
             // 
-            buttonIadeAl.Location = new Point(485, 183);
+            buttonIadeAl.Location = new Point(494, 204);
             buttonIadeAl.Name = "buttonIadeAl";
             buttonIadeAl.Size = new Size(269, 44);
             buttonIadeAl.TabIndex = 4;

@@ -13,7 +13,8 @@ namespace DataAccessLayer
             List<Departman> departmanListesi = new List<Departman>();
             //SQL sorgusu çalıştırılıyor
             SqlDataReader oku = SQLBaglantisi.SorguCalistir("Select * from Departmanlar");
-            //Okunan veriler listeye ekleniyor
+            try
+            {
             while (oku.Read())
             {
                 //Yeni bir departman nesnesi oluşturuluyor
@@ -24,10 +25,11 @@ namespace DataAccessLayer
                 //Listeye ekleniyor
                 departmanListesi.Add(dep);
             }
-            //Kapatılıyor
-            oku.Close();
-
-            //Liste döndürülüyor
+            }
+            finally
+            {
+                oku.Close();
+            }
             return departmanListesi;
         }
 

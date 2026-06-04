@@ -74,7 +74,11 @@ namespace LoomOS
         {
             try
             {
-                // DataGridView'de seçili olan satırın 0. hücresindeki (yani ID kısmındaki) değeri alıyoruz
+                if (dataGridView1.CurrentRow == null)
+                {
+                    MessageBox.Show("Lütfen silmek için tablodan bir departman seçiniz!", "Seçim Yok", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 int secilenID = Convert.ToInt32(dataGridView1.CurrentRow.Cells[0].Value);
 
                 int sonuc = DepartmanManager.DepartmanSilBL(secilenID);
@@ -95,9 +99,18 @@ namespace LoomOS
         {
             try
             {
+                if (dataGridView1.CurrentRow == null)
+                {
+                    MessageBox.Show("Lütfen güncellemek için tablodan bir departman seçiniz!", "Seçim Yok", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(textBox2.Text))
+                {
+                    MessageBox.Show("Yeni departman adı boş olamaz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 Departman guncellenecekDep = new Departman();
 
-                // 1. Güncellenecek ID'yi tablodan (seçili satırdan) al
                 guncellenecekDep.Departman_ID = Convert.ToInt32(dataGridView1.CurrentRow.Cells[0].Value);
 
                 // 2. Yeni ismi TextBox'tan al
@@ -196,6 +209,12 @@ namespace LoomOS
                 return;
             }
 
+            if (numericUpDownStok.Value <= 0)
+            {
+                MessageBox.Show("Stok adedi 0 veya eksi olamaz!", "Hatalı Giriş", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 EntityLayer.EnvanterStok yeniStok = new EntityLayer.EnvanterStok();
@@ -258,7 +277,7 @@ namespace LoomOS
                 if (sonuc > 0)
                 {
                     MessageBox.Show("Kayıt güncellendi!");
-                    dataGridView1.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL(); // Listeyi yenile
+                    dataGridView2.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL();
                     secilenEnvanterID = 0; // Hafızayı temizle
                 }
             }
@@ -275,12 +294,19 @@ namespace LoomOS
 
             if (cevap == DialogResult.Yes)
             {
-                int sonuc = BusinessLayer.EnvanterManager.StokSilBL(secilenEnvanterID);
-                if (sonuc > 0)
+                try
                 {
-                    MessageBox.Show("Kayıt silindi!");
-                    dataGridView1.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL(); // Listeyi yenile
-                    secilenEnvanterID = 0; // Hafızayı temizle
+                    int sonuc = BusinessLayer.EnvanterManager.StokSilBL(secilenEnvanterID);
+                    if (sonuc > 0)
+                    {
+                        MessageBox.Show("Kayıt silindi!");
+                        dataGridView2.DataSource = BusinessLayer.EnvanterManager.EnvanterListeleBL();
+                        secilenEnvanterID = 0;
+                    }
+                }
+                catch (Exception hata)
+                {
+                    MessageBox.Show(hata.Message, "Silme Hatası", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }//Ürünler Sayfası
@@ -297,16 +323,30 @@ namespace LoomOS
                 {
                     System.Data.DataRow urun = dtUrun.Rows[0];
                     int envanterId = Convert.ToInt32(urun["Envanter_ID"]);
+                    int stokAdeti = Convert.ToInt32(urun["Stok_Adeti"]);
                     string tamUrunAdi = urun["Urun_Adi"].ToString() + " - " + urun["Beden"].ToString() + " (" + urun["Renk"].ToString() + ")";
                     decimal fiyat = Convert.ToDecimal(urun["Satis_Fiyati"]);
+
+                    if (stokAdeti <= 0)
+                    {
+                        MessageBox.Show("Bu ürünün stoğu tükenmiş! Satış yapılamaz.", "Stok Yok", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        textBoxBarkodKasa.SelectAll();
+                        return;
+                    }
 
                     bool sepetteVarMi = false;
                     foreach (System.Data.DataRow satir in sepetTablosu.Rows)
                     {
                         if (Convert.ToInt32(satir["Envanter_ID"]) == envanterId)
                         {
-                            satir["Miktar"] = Convert.ToInt32(satir["Miktar"]) + 1;
-                            satir["Ara_Toplam"] = Convert.ToInt32(satir["Miktar"]) * fiyat;
+                            int yeniMiktar = Convert.ToInt32(satir["Miktar"]) + 1;
+                            if (yeniMiktar > stokAdeti)
+                            {
+                                MessageBox.Show($"Stok yetersiz! Maksimum eklenebilir adet: {stokAdeti}", "Stok Uyarısı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+                            satir["Miktar"] = yeniMiktar;
+                            satir["Ara_Toplam"] = yeniMiktar * fiyat;
                             sepetteVarMi = true;
                             break;
                         }
@@ -335,6 +375,12 @@ namespace LoomOS
         }//Ürünler Sayfası
         private void buttonSiparisiTamamla_Click(object sender, EventArgs e)//Ürünler Sayfası
         {
+            if (sepetTablosu.Rows.Count == 0)
+            {
+                MessageBox.Show("Sepet boş! Önce ürün okutunuz.", "Satış İptal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 EntityLayer.Siparis yeniSatis = new EntityLayer.Siparis();
@@ -420,6 +466,18 @@ namespace LoomOS
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(textBoxCalisanAd.Text) || string.IsNullOrWhiteSpace(textBoxCalisanSoyad.Text))
+                {
+                    MessageBox.Show("Ad ve soyad alanları boş bırakılamaz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(textBoxTCNO.Text) || textBoxTCNO.Text.Trim().Length != 11)
+                {
+                    MessageBox.Show("Geçerli bir 11 haneli TC Kimlik Numarası giriniz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 if (comboBox1.SelectedValue == null || comboBox1.SelectedValue.ToString() == "")
                 {
                     MessageBox.Show("Lütfen listeden bir departman seçiniz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -491,7 +549,14 @@ namespace LoomOS
 
         private void button5_Click(object sender, EventArgs e)
         {
-            dataGridView4.DataSource = MusteriManager.MusteriListeleBL();
+            try
+            {
+                dataGridView4.DataSource = MusteriManager.MusteriListeleBL();
+            }
+            catch (Exception hata)
+            {
+                MessageBox.Show("Müşteri listesi yüklenemedi: " + hata.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void buttonMusteriEkle_Click(object sender, EventArgs e)//Müşteriler Sayfası
         {
@@ -526,17 +591,20 @@ namespace LoomOS
         }
         private void textBox1_TextChanged(object sender, EventArgs e)//Müşteriler Sayfası
         {
-            string aranan = textBox1.Text.Trim();
+            try
+            {
+                string aranan = textBox1.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(aranan))
-            {
-                // Eğer arama kutusu silinip boşaltıldıysa tüm müşterileri geri getir
-                dataGridView4.DataSource = BusinessLayer.MusteriManager.MusteriListeleBL();
+                if (string.IsNullOrWhiteSpace(aranan))
+                    dataGridView4.DataSource = BusinessLayer.MusteriManager.MusteriListeleBL();
+                else if (aranan.Length < 2)
+                    return;
+                else
+                    dataGridView4.DataSource = BusinessLayer.MusteriManager.MusteriAraBL(aranan);
             }
-            else
+            catch (Exception hata)
             {
-                // Kutuda bir harf bile yazsa filtreleyerek getir
-                dataGridView4.DataSource = BusinessLayer.MusteriManager.MusteriAraBL(aranan);
+                MessageBox.Show(hata.Message, "Arama Hatası", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         #endregion
@@ -546,7 +614,13 @@ namespace LoomOS
 #region HoşGeldin Ve Yetki Kontrolü
             try
             {
-                // 1. KİŞİYİ KARŞILA
+                if (KullaniciSession.Calisan_ID <= 0 || string.IsNullOrWhiteSpace(KullaniciSession.AdSoyad))
+                {
+                    MessageBox.Show("Oturum bulunamadı. Lütfen tekrar giriş yapınız.", "Güvenlik", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Close();
+                    return;
+                }
+
                 lblKarsilama.Text = "Hoş Geldin, " + EntityLayer.KullaniciSession.AdSoyad;
 
                 // YETKİ KONTROLÜ (Departman_ID üzerinden)
@@ -813,6 +887,12 @@ namespace LoomOS
                     return;
                 }
 
+                if (alisFiyati <= 0)
+                {
+                    MessageBox.Show("Alış fiyatı 0 veya eksi olamaz!", "Hatalı Giriş", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 if (DataAccessLayer.AlimDAL.SatinAlimYap(urunID, tedarikciID, miktar, alisFiyati))
                 {
                     MessageBox.Show("Satın alma işlemi tamamlandı! Mal depoya girdi ve sistem güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -897,7 +977,13 @@ namespace LoomOS
 
         private void buttonFisAra_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(textBoxFisNo.Text, out int siparisId))
+            if (string.IsNullOrWhiteSpace(textBoxFisNo.Text))
+            {
+                MessageBox.Show("Lütfen fiş numarası giriniz!", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (int.TryParse(textBoxFisNo.Text.Trim(), out int siparisId))
             {
                 System.Data.DataTable dt = DataAccessLayer.IadeDAL.FisiGetir(siparisId);
 
@@ -914,6 +1000,10 @@ namespace LoomOS
                 {
                     MessageBox.Show("Bu numaraya ait bir sipariş bulunamadı!", "Uyarı");
                 }
+            }
+            else
+            {
+                MessageBox.Show("Fiş numarası yalnızca rakamlardan oluşmalıdır!", "Geçersiz Giriş", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -985,7 +1075,7 @@ namespace LoomOS
                 try
                 {
                     // DAL sınıfımızdaki metodu çağırıyoruz
-                    bool basarili = CalisanDAL.MaasGuncelle(girilenTC, girilenMaas);
+                    bool basarili = CalisanManager.MaasGuncelleBL(girilenTC, girilenMaas);
 
                     if (basarili)
                     {
@@ -1037,7 +1127,7 @@ namespace LoomOS
             {
                 try
                 {
-                    bool basarili = CalisanDAL.IstenCikar(girilenTC);
+                    bool basarili = CalisanManager.IstenCikarBL(girilenTC);
 
                     if (basarili)
                     {
